@@ -12,7 +12,7 @@ jdk:
 
 script:
  - mvn -f server/pom.xml clean verify -Pjacoco coveralls:report
- - mvn -f server/pom.xml clean verify sonar:sonar
+ - mvn -f server/pom.xml clean verify -Pjacoco sonar:sonar
  
  
 
