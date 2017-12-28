@@ -1,2 +1,22 @@
+language: java
+sudo: false
+install: true
+addons:
+  sonarcloud:
+    organization: "francescosecci-github"
+    token:
+      secure: "VAgAPeicYznH8LWUiqnoO4CMUwr4y9HyNfpBS30VW2EKslVf8FnFUbX4jo7vGCFOZLLQPidVqlrFk21Y0qIs44Ikx8G88EUnHS8Cxajlv5qkhg/6g0hTc7J3qv+1R5kiuDLct2jI4f7cSO0r0ZbpkaeNiSilhnldWqBTmkJ6fa1PiYYjFxrjeLalbbmA2qypBnrCMic5K+sn7DGKByTaZkAEXZyYgL2VbauQMVp7YU7y6JeaIhtY3mzxEWsD8wXGkgpmlCGp74XZ1MiO2lxggT8i3yqva2YqKP4TD77igPspbWQH5xLiLlESHsvzO+zEQie6ODA4hrRHy3SoL8SSGFoJAE3sKgJP/wj4PtM1MZIJXQs4DUY7za2XFxajZuqI6NdSV7ILaq1jpBUWdIaB38V49DvaTDpLSZwI/VYd61VebfYpMdVMS1Xkvg65hHtp8clqLMDxcvO4g2fgg+pLZ7x6ktxe/f77eb+RIL4S0YqYWPWl6ZqRWFouz22kFlplHlbSQnn2yi9qCs/Cx3hnYrlrFjZi3DObQ2OSTWb1kxQwqmtoYf+snxb0fXdzpjpANMI8gTJYZupbQNYr/WrTa67emG+nBmb6pusudHFqPRVpHJ2NtBh0tJOV7GgBpvayJi0DYjNV1Noe85z0dkqoVxMHn2IzZBmcYr+3YXH4WA4="
+jdk:
+  - oraclejdk8
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+
+
 script:
  - mvn -f server/pom.xml clean verify -Pjacoco coveralls:report
+
+  
