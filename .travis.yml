@@ -1,0 +1,2 @@
+script:
+ - mvn -f server/pom.xml clean verify -Pjacoco coveralls:report
