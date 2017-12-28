@@ -15,6 +15,7 @@ cache:
 
 
 script:
- - mvn -f server/pom.xml clean verify -Pjacoco coveralls:report sonar:sonar
+ - mvn -f server/pom.xml clean verify -Pjacoco coveralls:report
+ - mvn -f server/pom.xml clean verify sonar:sonar
 
   
