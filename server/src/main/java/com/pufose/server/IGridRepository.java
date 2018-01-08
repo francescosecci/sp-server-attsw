@@ -9,4 +9,6 @@ public interface IGridRepository {
 	public DatabaseGrid findById(int id);
 
 	public DatabaseGrid save(DatabaseGrid grid);
+
+	public DatabaseGrid delete(DatabaseGrid grid);
 }

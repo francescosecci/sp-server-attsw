@@ -101,7 +101,14 @@ public class GraphServiceTest {
 		verify(gridRepository,times(1)).findAll();
 			
 	}
-	
+	@Test
+	public void DropTableDeleteIsCalled() {
+		DatabaseGrid grid1=new DatabaseGrid(1);
+		given(gridRepository.delete(grid1)).willReturn(null);
+		gridService.dropTable(grid1);
+		verify(gridRepository,times(1)).delete(grid1);
+		
+	}
 	
 
 }

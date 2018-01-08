@@ -52,4 +52,9 @@ public class GridService implements IGridService {
 		return maxid + 1;
 	}
 
+	public void dropTable(DatabaseGrid grid) {
+		repository.delete(grid);
+		
+	}
+
 }
