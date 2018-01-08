@@ -66,12 +66,33 @@ public class ARestControllerTest {
 			.andExpect(jsonPath("$[1]",is("1")));
 		verify(graphService,times(1)).getAllNames();
 	}
+	private void whenPathReturn(IGraphService gs,String from, String to, int id,List<String> toreturn) {
+		given(gs.getShortestPath(from, to, id)).
+			willReturn(toreturn);
+	}
 	@Test
-	public void testPath() throws Exception{
-		given(graphService.getShortestPath("0_0","0_2", 0)).
-			willReturn(Arrays.asList(
-					"0_0","0_1","0_2"
-					));
+	public void testPathWhenOneNode() throws Exception{
+		whenPathReturn(graphService,"0_0","0_2",0,Arrays.asList("0"));
+		this.mvc.perform(get("/api/path0_0TO0_2IN0")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$[0]",is("0")));
+		verify(graphService,times(1)).getShortestPath("0_0", "0_2", 0);
+	}
+	@Test
+	public void testPathWhenNoNodes() throws Exception{
+		whenPathReturn(graphService,"0_0","0_2",0,Arrays.asList());
+		this.mvc.perform(get("/api/path0_0TO0_2IN0")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$",hasSize(0)));
+		verify(graphService,times(1)).getShortestPath("0_0", "0_2", 0);
+	}
+	
+	@Test
+	public void testPathWhenMoreThanOneNode() throws Exception{
+		whenPathReturn(graphService,"0_0","0_2",0,Arrays.asList("0_0","0_1","0_2"));
+		
 		this.mvc.perform(get("/api/path0_0TO0_2IN0")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
@@ -95,5 +116,5 @@ public class ARestControllerTest {
 			
 		verify(graphService,times(1)).getById(0);
 	}
-
+	
 }
