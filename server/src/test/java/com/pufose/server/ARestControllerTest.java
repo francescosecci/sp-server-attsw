@@ -101,20 +101,42 @@ public class ARestControllerTest {
 				.andExpect(jsonPath("$[2]",is("0_2")));
 		verify(graphService,times(1)).getShortestPath("0_0", "0_2", 0);
 	}
+	
+	
+	
 	@Test
 	public void testGrid() throws Exception{
 		int[][] mat=new int[][] {};
 		given(graphService.getById(0)).
 			willReturn(new DatabaseGrid(mat,0));
+		
 		this.mvc.perform(get("/api/grid0")
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("n",is(0)))
-			.andExpect(jsonPath("matrix",CoreMatchers.notNullValue())) 
-				//Assert not null when we rather assert is(<[]>)
+			.andExpect(jsonPath("matrix",hasSize(0)))
 			.andExpect(jsonPath("id",is(0)));
 			
 		verify(graphService,times(1)).getById(0);
+	}
+	
+	@Test
+	public void testGrid2() throws Exception{
+		int[][] mat=new int[][] {
+			{1,1},
+			{0,1}
+		};
+		given(graphService.getById(1)).
+			willReturn(new DatabaseGrid(mat,1));
+		
+		this.mvc.perform(get("/api/grid1")
+			.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("n",is(2)))
+			.andExpect(jsonPath("matrix",hasSize(2)))
+			.andExpect(jsonPath("id",is(1)));
+			
+		verify(graphService,times(1)).getById(1);
 	}
 	
 }
