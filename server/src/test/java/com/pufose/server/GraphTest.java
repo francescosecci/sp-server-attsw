@@ -21,12 +21,12 @@ public class GraphTest {
 	private String node5;
 	private String node6;
 	private List<String> minPath;
-	
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
-	
+
 	@Before
-    public void setUp() {
+	public void setUp() {
 		g = new Graph();
 		node1 = "nodo1";
 		node2 = "nodo2";
@@ -35,8 +35,8 @@ public class GraphTest {
 		node5 = "nodo5";
 		node6 = "nodo6";
 		minPath = new LinkedList<String>();
-    }
-	
+	}
+
 	@Test(expected = IllegalArgumentException.class)
 	public void addEdgeWhenFirstNodeIsNotInListTest() {
 		addNodesToList();
@@ -44,7 +44,7 @@ public class GraphTest {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("Node nodo3 does not exists");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void addEdgeWhenSecondNodeIsNotInListTest() {
 		addNodesToList();
@@ -52,7 +52,7 @@ public class GraphTest {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("Node nodo3 does not exists");
 	}
-	
+
 	@Test
 	public void addEdgeWhenNodeAreInListTest() {
 		addNodesToList();
@@ -60,7 +60,7 @@ public class GraphTest {
 		String[] actualEdge=g.getEdges().get(0);
 		assertArrayEquals(actualEdge, new String[]{node1, node2});
 	}
-	
+
 	@Test
 	public void minPathFromEqualByToTest() {
 		addNodesToList();
@@ -68,7 +68,7 @@ public class GraphTest {
 		String expected=node1;
 		assertEquals(g.minPath(node1, node1), Arrays.asList(expected));
 	}
-	
+
 	@Test
 	public void minPathFromDistinctByToTest() {
 		insertMoreIteminList();
@@ -102,12 +102,12 @@ public class GraphTest {
 		g.addNodes(node5);
 		g.addNodes(node6);
 	}
-	
+
 	private void addNodesToList() {
 		g.addNodes(node1);
 		g.addNodes(node2);
 	}
-	
-	
+
+
 
 }
