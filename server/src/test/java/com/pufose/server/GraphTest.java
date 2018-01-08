@@ -21,12 +21,34 @@ public class GraphTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void addEdgeWhenFirstNodeIsNotInListTest() {
-		g.addNodes(node1);
-		g.addNodes(node2);
+		addNodesToList();
 		g.addEdge(node3, node1);
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("Node nodo3 does not exists");
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void addEdgeWhenSecondNodeIsNotInListTest() {
+		addNodesToList();
+		g.addEdge(node1, node3);
+		thrown.expect(IllegalArgumentException.class);
+		thrown.expectMessage("Node nodo3 does not exists");
+	}
+	
+	@Test
+	public void addEdgeWhenNodeAreInListTest() {
+		addNodesToList();
+		g.addEdge(node1, node2);
+		String[] actualEdge=g.getEdges().get(0);
+		assertArrayEquals(actualEdge, new String[]{node1, node2});
+	}
+	
+	private void addNodesToList() {
+		g.addNodes(node1);
+		g.addNodes(node2);
+	}
+	
+	
 	
 
 }

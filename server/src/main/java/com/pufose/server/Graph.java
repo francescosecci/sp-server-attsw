@@ -19,10 +19,16 @@ public class Graph {
 
 	public void addEdge(String node1, String node2) throws IllegalArgumentException {
 		if(!containsNode(node1)) throw new IllegalArgumentException("Node "+node1+" does not exists");
+		if(!containsNode(node2)) throw new IllegalArgumentException("Node "+node2+" does not exists");
+		edges.add(new String[] {node1,node2});
 	}
 
 	public boolean containsNode(String name) {
 		return nodes.contains(name);
+	}
+
+	public List<String[]> getEdges(){
+		return new LinkedList<String[]>(edges);
 	}
 
 }
