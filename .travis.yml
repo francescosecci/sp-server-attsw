@@ -15,7 +15,7 @@ script:
  - mvn -f server/pom.xml clean verify -Pjacoco sonar:sonar
  
 after_failure:
-  - cat target/surefire-reports/*.txt 
+  - cat /home/travis/build/francescosecci/sp-server-attsw/server/target/surefire-reports/*.txt 
 
 cache:
   directories:
