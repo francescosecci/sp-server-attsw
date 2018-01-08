@@ -32,7 +32,7 @@ public class DatabaseGrid {
 	}
 
 	private int n;
-	public int[][] matrix;
+	private int[][] matrix;
 	private int id;
 
 	public DatabaseGrid(int[][] matrix, int id) {
