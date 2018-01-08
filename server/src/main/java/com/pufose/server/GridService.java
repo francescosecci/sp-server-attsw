@@ -27,8 +27,7 @@ public class GridService implements IGridService {
 
 	@Override
 	public DatabaseGrid getById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findById(id);
 	}
 
 	@Override
