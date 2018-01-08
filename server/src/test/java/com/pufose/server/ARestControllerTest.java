@@ -4,8 +4,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.*;
 import java.util.Arrays;
+import java.util.List;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
@@ -30,11 +32,33 @@ public class ARestControllerTest {
 		mvc.perform(get("/")).andExpect(status().isOk());
 	}
 	@Test
-	public void testApi() throws Exception{
-		given(graphService.getAllNames()).
-			willReturn(Arrays.asList(
-					"0","1"
-					));
+	public void testGetAllNamesWhenNoGridExists() throws Exception {
+		whenGetAllNamesReturn(graphService,Arrays.asList());
+		this.mvc.perform(get("/api")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$",hasSize(0)));
+				
+			verify(graphService,times(1)).getAllNames();
+		
+	}
+	private void whenGetAllNamesReturn(IGraphService gs,List<String> toreturn) {
+		given(gs.getAllNames()).willReturn(toreturn);
+	}
+	@Test
+	public void testApiWhenSingleGridExists() throws Exception {
+		whenGetAllNamesReturn(graphService,Arrays.asList("0"));
+		this.mvc.perform(get("/api")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$[0]",is("0")));
+				
+			verify(graphService,times(1)).getAllNames();
+	}
+	
+	@Test
+	public void testApiWhenMoreThanOneGridExists() throws Exception{
+		whenGetAllNamesReturn(graphService,Arrays.asList("0","1"));
 		this.mvc.perform(get("/api")
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
