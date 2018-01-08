@@ -20,7 +20,9 @@ public class GraphTest {
 	private String node4;
 	private String node5;
 	private String node6;
+	private String node7;
 	private List<String> minPath;
+	private List<String> emptyMinPath;
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
@@ -34,7 +36,9 @@ public class GraphTest {
 		node4 = "nodo4";
 		node5 = "nodo5";
 		node6 = "nodo6";
-		minPath = new LinkedList<String>();
+		node7 = "nodo7";
+		minPath = new LinkedList<>();
+		emptyMinPath = new LinkedList<>();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -76,6 +80,14 @@ public class GraphTest {
 		addNodesToExpectedMinPath();
 		assertEquals(g.minPath(node6, node1), minPath);
 	}
+	
+	@Test
+	public void minPathDoesNotExistsTest() {
+		insertMoreIteminList();
+		addEdgesForMinPath();
+		addNodesToExpectedMinPath();
+		assertEquals(g.minPath(node6, node7), emptyMinPath);
+	}
 
 	private void addNodesToExpectedMinPath() {
 		minPath.add(node6);
@@ -101,6 +113,7 @@ public class GraphTest {
 		g.addNodes(node4);
 		g.addNodes(node5);
 		g.addNodes(node6);
+		g.addNodes(node7);
 	}
 
 	private void addNodesToList() {
