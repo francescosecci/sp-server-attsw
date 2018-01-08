@@ -40,8 +40,20 @@ public class ARestControllerTest {
 			.andExpect(jsonPath("$[0]",is("0")))
 			.andExpect(jsonPath("$[1]",is("1")));
 		verify(graphService,times(1)).getAllNames();
-			
-		
+	}
+	@Test
+	public void testPath() throws Exception{
+		given(graphService.getShortestPath("0_0","0_2", 0)).
+			willReturn(Arrays.asList(
+					"0_0","0_1","0_2"
+					));
+		this.mvc.perform(get("/api/path0_0TO0_2IN0")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$[0]",is("0_0")))
+				.andExpect(jsonPath("$[1]",is("0_1")))
+				.andExpect(jsonPath("$[2]",is("0_2")));
+		verify(graphService,times(1)).getShortestPath("0_0", "0_2", 0);
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -26,7 +27,12 @@ public class ARestController {
 		return serializer.toJson(names);
 		
 	}
-	
+	@GetMapping("/api/path{source}TO{sink}IN{city}")
+	public String path(@PathVariable String source, @PathVariable String sink, @PathVariable String city) {
+		List<String> minpath= service.getShortestPath(source, sink, Integer.parseInt(city));
+		Gson serializer=new Gson();
+		return serializer.toJson(minpath);
+	}
 	
 
 }
