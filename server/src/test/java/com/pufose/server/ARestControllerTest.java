@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.BDDMockito.*;
 import java.util.Arrays;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,21 @@ public class ARestControllerTest {
 				.andExpect(jsonPath("$[1]",is("0_1")))
 				.andExpect(jsonPath("$[2]",is("0_2")));
 		verify(graphService,times(1)).getShortestPath("0_0", "0_2", 0);
+	}
+	@Test
+	public void testGrid() throws Exception{
+		int[][] mat=new int[][] {};
+		given(graphService.getById(0)).
+			willReturn(new DatabaseGrid(mat,0));
+		this.mvc.perform(get("/api/grid0")
+			.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("n",is(0)))
+			.andExpect(jsonPath("matrix",CoreMatchers.notNullValue())) 
+				//Assert not null when we rather assert is(<[]>)
+			.andExpect(jsonPath("id",is(0)));
+			
+		verify(graphService,times(1)).getById(0);
 	}
 
 }

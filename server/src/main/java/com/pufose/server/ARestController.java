@@ -34,5 +34,13 @@ public class ARestController {
 		return serializer.toJson(minpath);
 	}
 	
+	@GetMapping("/api/grid{name}")
+	public String city(@PathVariable String name) {
+		Gson serializer=new Gson();
+		System.out.println("Requested for city "+name);
+		return serializer.toJson(service.getById(Integer.parseInt(name)));
+	}
+	
+	
 
 }
