@@ -7,4 +7,6 @@ public interface IGridRepository {
 	public List<DatabaseGrid> findAll();
 
 	public DatabaseGrid findById(int id);
+
+	public DatabaseGrid save(DatabaseGrid grid);
 }
