@@ -1,5 +1,4 @@
 package com.pufose.server;
-
 import java.util.Arrays;
 
 public class DatabaseGrid {

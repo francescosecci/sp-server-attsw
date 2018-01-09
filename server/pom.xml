@@ -26,6 +26,7 @@
     <jacoco.report.path>${project.reporting.outputDirectory}/jacocout</jacoco.report.path>
     <sonar.language>java</sonar.language>
     <sonar.jacoco.reportPaths>${jacoco.data.file}</sonar.jacoco.reportPaths>
+    <sonar.coverage.exclusions>**/Main.*</sonar.coverage.exclusions>
   </properties>
 
   <dependencies>
@@ -81,6 +82,11 @@
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.7.7.201606060606</version>
+            <configuration>
+              <excludes>
+                <exclude>**/Main.*</exclude>
+              </excludes>
+            </configuration>
             <executions>
               <!-- Prepares the property pointing to the JaCoCo runtime agent 
                 which is passed as VM argument when Maven the Surefire plugin is executed. -->
@@ -138,13 +144,13 @@
                 </jacocoReports>
               </configuration>
             </plugin>
-            
-             <plugin>
-        		<groupId>org.sonarsource.scanner.maven</groupId>
-        		<artifactId>sonar-maven-plugin</artifactId>
-        		<version>3.4.0.905</version>
-      		</plugin>
-            
+
+            <plugin>
+              <groupId>org.sonarsource.scanner.maven</groupId>
+              <artifactId>sonar-maven-plugin</artifactId>
+              <version>3.4.0.905</version>
+            </plugin>
+
           </plugins>
         </pluginManagement>
       </build>
