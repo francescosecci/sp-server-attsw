@@ -1,39 +1,70 @@
 package com.pufose.server;
+import java.util.Arrays;
 
 public class DatabaseGrid {
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + Arrays.deepHashCode(matrix);
+		result = prime * result + n;
+		return result;
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DatabaseGrid other = (DatabaseGrid) obj;
+		if (id != other.id)
+			return false;
+		if (!Arrays.deepEquals(matrix, other.matrix))
+			return false;
+		if (n != other.n)
+			return false;
+		return true;
+	}
+
+	private int n;
+	private int[][] matrix;
 	private int id;
-	private int[][] mat;
+
+	public DatabaseGrid(int[][] matrix, int id) {
+		this.matrix = matrix;
+		this.n = matrix.length;
+		this.setId(id);
+	}
+
+	public int getN() {
+		return n;
+	}
+
+	public void setN(int n) {
+		this.n = n;
+	}
+
+	public boolean isEnabled(int i, int j) {
+		try {
+			return matrix[i][j] > 0;
+		} catch (Exception exc) {
+			return false;
+		}
+	}
+
+	public String getName(int i, int j) {
+		return i + "_" + j;
+	}
 
 	public int getId() {
 		return id;
 	}
 
-	public DatabaseGrid(int[][] mat, int id) {
-		super();
+	public void setId(int id) {
 		this.id = id;
-		this.mat = mat;
 	}
-
-	public DatabaseGrid(int id) {
-		super();
-		this.id = id;
-		this.mat = new int[0][0];
-	}
-
-	public int getN() {
-
-		return mat.length;
-	}
-
-	public boolean isEnabled(int i, int j) {
-
-		return mat[i][j] > 0;
-	}
-
-	public String getName(int i, int j) {
-		// TODO Auto-generated method stub
-		return i + "_"+ j;
-	}
-
 }
