@@ -7,7 +7,7 @@ import java.util.List;
 public class GridService implements IGridService {
 
 	private IGridRepository repository;
-	private final String NODE_FORMAT = "%d_%d";
+	private static final String nodeFormat = "%d_%d";
 	
 	private Graph tobuild;
 	@Override
@@ -41,19 +41,19 @@ public class GridService implements IGridService {
 			int j=node.charAt(2)-48;
 			
 			if(i<n-1 && grid.isEnabled(i+1,j) ) {
-				String target=String.format(NODE_FORMAT, i+1,j);
+				String target=String.format(nodeFormat, i+1,j);
 				tobuild.addEdge(node, target);
 			}
 			if(i>0 && grid.isEnabled(i-1, j) ) {
-				String target=String.format(NODE_FORMAT, i-1,j);		
+				String target=String.format(nodeFormat, i-1,j);		
 				tobuild.addEdge(node,target);
 			}
 			if(j<n-1 && grid.isEnabled(i, j+1)) {
-				String target=String.format(NODE_FORMAT, i,j+1);
+				String target=String.format(nodeFormat, i,j+1);
 				tobuild.addEdge(node,target);
 			}
 			if(j>0 && grid.isEnabled(i, j-1)) {
-				String target=String.format(NODE_FORMAT, i,j-1);
+				String target=String.format(nodeFormat, i,j-1);
 				tobuild.addEdge(node, target);
 			}
 		}
