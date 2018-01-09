@@ -7,14 +7,14 @@ import java.util.List;
 public class GridService implements IGridService {
 
 	private IGridRepository repository;
-	
+	private final String NODE_FORMAT = "%d_%d";
 	
 	private Graph tobuild;
 	@Override
 	public List<String> getAllId() {
 
 		List<DatabaseGrid> list = repository.findAll();
-		List<String> toreturn = new LinkedList<String>();
+		List<String> toreturn = new LinkedList<>();
 		for (DatabaseGrid grid : list)
 			toreturn.add("" + grid.getId());
 		return toreturn;
@@ -41,19 +41,19 @@ public class GridService implements IGridService {
 			int j=node.charAt(2)-48;
 			
 			if(i<n-1 && grid.isEnabled(i+1,j) ) {
-				String target=String.format("%d_%d", i+1,j);
+				String target=String.format(NODE_FORMAT, i+1,j);
 				tobuild.addEdge(node, target);
 			}
 			if(i>0 && grid.isEnabled(i-1, j) ) {
-				String target=String.format("%d_%d", i-1,j);		
+				String target=String.format(NODE_FORMAT, i-1,j);		
 				tobuild.addEdge(node,target);
 			}
 			if(j<n-1 && grid.isEnabled(i, j+1)) {
-				String target=String.format("%d_%d", i,j+1);
+				String target=String.format(NODE_FORMAT, i,j+1);
 				tobuild.addEdge(node,target);
 			}
 			if(j>0 && grid.isEnabled(i, j-1)) {
-				String target=String.format("%d_%d", i,j-1);
+				String target=String.format(NODE_FORMAT, i,j-1);
 				tobuild.addEdge(node, target);
 			}
 		}
