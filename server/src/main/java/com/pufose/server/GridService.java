@@ -4,11 +4,16 @@ package com.pufose.server;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
 public class GridService implements IGridService {
 
+	@Autowired
 	private IGridRepository repository;
 	private static final String D_D = "%d_%d";
-	
+	@Autowired
 	private Graph tobuild;
 	@Override
 	public List<String> getAllId() {

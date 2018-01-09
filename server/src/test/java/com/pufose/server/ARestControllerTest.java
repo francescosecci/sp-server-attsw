@@ -23,7 +23,7 @@ public class ARestControllerTest {
 	@Autowired
 	private MockMvc mvc;
 	@MockBean
-	private IGraphService graphService;
+	private IGridService gridService;
 	
 	@Test
 	public void testStatus200() throws Exception{
@@ -31,65 +31,65 @@ public class ARestControllerTest {
 	}
 	@Test
 	public void testGetAllNamesWhenNoGridExists() throws Exception {
-		whenGetAllNamesReturn(graphService,Arrays.asList());
+		whenGetAllNamesReturn(gridService,Arrays.asList());
 		this.mvc.perform(get("/api")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$",hasSize(0)));
 				
-			verify(graphService,times(1)).getAllNames();
+			verify(gridService,times(1)).getAllId();
 		
 	}
-	private void whenGetAllNamesReturn(IGraphService gs,List<String> toreturn) {
-		given(gs.getAllNames()).willReturn(toreturn);
+	private void whenGetAllNamesReturn(IGridService gs,List<String> toreturn) {
+		given(gs.getAllId()).willReturn(toreturn);
 	}
 	@Test
 	public void testApiWhenSingleGridExists() throws Exception {
-		whenGetAllNamesReturn(graphService,Arrays.asList("0"));
+		whenGetAllNamesReturn(gridService,Arrays.asList("0"));
 		this.mvc.perform(get("/api")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$[0]",is("0")));
 				
-			verify(graphService,times(1)).getAllNames();
+			verify(gridService,times(1)).getAllId();
 	}
 	
 	@Test
 	public void testApiWhenMoreThanOneGridExists() throws Exception{
-		whenGetAllNamesReturn(graphService,Arrays.asList("0","1"));
+		whenGetAllNamesReturn(gridService,Arrays.asList("0","1"));
 		this.mvc.perform(get("/api")
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$[0]",is("0")))
 			.andExpect(jsonPath("$[1]",is("1")));
-		verify(graphService,times(1)).getAllNames();
+		verify(gridService,times(1)).getAllId();
 	}
-	private void whenPathReturn(IGraphService gs,String from, String to, int id,List<String> toreturn) {
+	private void whenPathReturn(IGridService gs,String from, String to, int id,List<String> toreturn) {
 		given(gs.getShortestPath(from, to, id)).
 			willReturn(toreturn);
 	}
 	@Test
 	public void testPathWhenOneNode() throws Exception{
-		whenPathReturn(graphService,"0_0","0_2",0,Arrays.asList("0"));
+		whenPathReturn(gridService,"0_0","0_2",0,Arrays.asList("0"));
 		this.mvc.perform(get("/api/path0_0TO0_2IN0")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$[0]",is("0")));
-		verify(graphService,times(1)).getShortestPath("0_0", "0_2", 0);
+		verify(gridService,times(1)).getShortestPath("0_0", "0_2", 0);
 	}
 	@Test
 	public void testPathWhenNoNodes() throws Exception{
-		whenPathReturn(graphService,"0_0","0_2",0,Arrays.asList());
+		whenPathReturn(gridService,"0_0","0_2",0,Arrays.asList());
 		this.mvc.perform(get("/api/path0_0TO0_2IN0")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$",hasSize(0)));
-		verify(graphService,times(1)).getShortestPath("0_0", "0_2", 0);
+		verify(gridService,times(1)).getShortestPath("0_0", "0_2", 0);
 	}
 	
 	@Test
 	public void testPathWhenMoreThanOneNode() throws Exception{
-		whenPathReturn(graphService,"0_0","0_2",0,Arrays.asList("0_0","0_1","0_2"));
+		whenPathReturn(gridService,"0_0","0_2",0,Arrays.asList("0_0","0_1","0_2"));
 		
 		this.mvc.perform(get("/api/path0_0TO0_2IN0")
 				.accept(MediaType.APPLICATION_JSON))
@@ -97,7 +97,7 @@ public class ARestControllerTest {
 				.andExpect(jsonPath("$[0]",is("0_0")))
 				.andExpect(jsonPath("$[1]",is("0_1")))
 				.andExpect(jsonPath("$[2]",is("0_2")));
-		verify(graphService,times(1)).getShortestPath("0_0", "0_2", 0);
+		verify(gridService,times(1)).getShortestPath("0_0", "0_2", 0);
 	}
 	
 	
@@ -105,7 +105,7 @@ public class ARestControllerTest {
 	@Test
 	public void testGrid() throws Exception{
 		int[][] mat=new int[][] {};
-		given(graphService.getById(0)).
+		given(gridService.getById(0)).
 			willReturn(new DatabaseGrid(mat,0));
 		
 		this.mvc.perform(get("/api/grid0")
@@ -115,7 +115,7 @@ public class ARestControllerTest {
 			.andExpect(jsonPath("matrix",hasSize(0)))
 			.andExpect(jsonPath("id",is(0)));
 			
-		verify(graphService,times(1)).getById(0);
+		verify(gridService,times(1)).getById(0);
 	}
 	
 	@Test
@@ -124,7 +124,7 @@ public class ARestControllerTest {
 			{1,1},
 			{0,1}
 		};
-		given(graphService.getById(1)).
+		given(gridService.getById(1)).
 			willReturn(new DatabaseGrid(mat,1));
 		
 		this.mvc.perform(get("/api/grid1")
@@ -134,7 +134,7 @@ public class ARestControllerTest {
 			.andExpect(jsonPath("matrix",hasSize(2)))
 			.andExpect(jsonPath("id",is(1)));
 			
-		verify(graphService,times(1)).getById(1);
+		verify(gridService,times(1)).getById(1);
 	}
 	
 }

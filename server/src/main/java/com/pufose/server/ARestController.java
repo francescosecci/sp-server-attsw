@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 @RestController
 public class ARestController {
 	@Autowired
-	private IGraphService service;
+	private IGridService service;
 	
 	@GetMapping("/")
 	public String isUp() {
@@ -23,7 +23,7 @@ public class ARestController {
 	@GetMapping("/api")
 	public String index() {
 		Gson serializer=new Gson();
-		List<String> names=service.getAllNames();
+		List<String> names=service.getAllId();
 		return serializer.toJson(names);
 		
 	}

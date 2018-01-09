@@ -14,7 +14,11 @@ public class DatabaseGrid {
 		this.id=id;
 		this.matrix=new int[0][0];
 	}
-	
+	public DatabaseGrid() {
+		this.n=0;
+		this.id=0;
+		this.matrix=new int[0][0];
+	}
 	
 	@Override
 	public int hashCode() {

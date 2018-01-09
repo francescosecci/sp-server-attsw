@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class Graph {
 
 	private List<String> nodes;
