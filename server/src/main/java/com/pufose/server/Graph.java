@@ -19,7 +19,9 @@ public class Graph {
 	public void addNodes(String name) {
 		nodes.add(name);
 	}
-
+	public List<String> getNodes(){
+		return new LinkedList<>(nodes);
+	}
 	public void addEdge(String node1, String node2) {
 		if(!containsNode(node1)) throw new IllegalArgumentException("Node "+node1+" does not exists");
 		if(!containsNode(node2)) throw new IllegalArgumentException("Node "+node2+" does not exists");
@@ -77,4 +79,5 @@ public class Graph {
 		return neighbours.toString().split(" ");
 	}
 
+	
 }

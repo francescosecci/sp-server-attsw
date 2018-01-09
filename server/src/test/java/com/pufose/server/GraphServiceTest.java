@@ -129,7 +129,7 @@ public class GraphServiceTest {
 			for (int j = 0; j < mat.length; j++) {
 				if (mat[i][j] == 1) {
 
-					verify(tobuild, times(1)).addNode(i + "_" + j);
+					verify(tobuild, times(1)).addNodes(i + "_" + j);
 				}
 			}
 		}

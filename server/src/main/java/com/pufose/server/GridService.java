@@ -31,7 +31,7 @@ public class GridService implements IGridService {
 			for(int j=0; j<n;j++) {
 				if(grid.isEnabled(i, j)) {
 					
-					tobuild.addNode(grid.getName(i, j));
+					tobuild.addNodes(grid.getName(i, j));
 				}
 			}
 		}

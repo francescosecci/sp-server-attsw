@@ -2,6 +2,20 @@ package com.pufose.server;
 import java.util.Arrays;
 
 public class DatabaseGrid {
+	
+	public DatabaseGrid(int[][] matrix, int id) {
+		this.matrix = matrix;
+		this.n = matrix.length;
+		this.setId(id);
+	}
+
+	public DatabaseGrid(int id) {
+		this.n=0;
+		this.id=id;
+		this.matrix=new int[0][0];
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -34,11 +48,7 @@ public class DatabaseGrid {
 	private int[][] matrix;
 	private int id;
 
-	public DatabaseGrid(int[][] matrix, int id) {
-		this.matrix = matrix;
-		this.n = matrix.length;
-		this.setId(id);
-	}
+	
 
 	public int getN() {
 		return n;
