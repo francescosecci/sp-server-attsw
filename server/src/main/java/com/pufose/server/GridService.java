@@ -6,8 +6,10 @@ import java.util.List;
 
 public class GridService implements IGridService {
 
-	IGridRepository repository;
-
+	private IGridRepository repository;
+	
+	
+	private Graph tobuild;
 	@Override
 	public List<String> getAllId() {
 
@@ -21,9 +23,42 @@ public class GridService implements IGridService {
 
 	@Override
 	public List<String> getShortestPath(String from, String to, int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		
+		
+		DatabaseGrid grid=repository.findById(id);
+		int n=grid.getN();
+		for(int i=0; i<n;i++) {
+			for(int j=0; j<n;j++) {
+				if(grid.isEnabled(i, j)) {
+					
+					tobuild.addNode(grid.getName(i, j));
+				}
+			}
+		}
+		for(String node:tobuild.getNodes()) {
+		
+			int i=node.charAt(0)-48;
+			int j=node.charAt(2)-48;
+			
+			if(i<n-1 && grid.isEnabled(i+1,j) ) {
+				String target=String.format("%d_%d", i+1,j);
+				tobuild.addEdge(node, target);
+			}
+			if(i>0 && grid.isEnabled(i-1, j) ) {
+				String target=String.format("%d_%d", i-1,j);		
+				tobuild.addEdge(node,target);
+			}
+			if(j<n-1 && grid.isEnabled(i, j+1)) {
+				String target=String.format("%d_%d", i,j+1);
+				tobuild.addEdge(node,target);
+			}
+			if(j>0 && grid.isEnabled(i, j-1)) {
+				String target=String.format("%d_%d", i,j-1);
+				tobuild.addEdge(node, target);
+			}
+		}
+		return tobuild.minPath(from,to);
+}
 
 	@Override
 	public DatabaseGrid getById(int id) {
@@ -56,5 +91,7 @@ public class GridService implements IGridService {
 		repository.delete(grid);
 		
 	}
+
+	
 
 }
