@@ -107,9 +107,9 @@ public class GraphServiceTest {
 
 	@Test
 	public void dropTableDeleteIsCalledTest() {
-		DatabaseGrid grid1 = new DatabaseGrid(1);
-		gridService.dropTable(grid1);
-		verify(gridRepository, times(1)).delete(grid1);
+		
+		gridService.dropTable(1);
+		verify(gridRepository, times(1)).delete(1);
 
 	}
 
