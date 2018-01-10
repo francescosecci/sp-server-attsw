@@ -8,6 +8,7 @@ public interface IGridService {
 	public DatabaseGrid getById(int id);
 	public void storeInDb(DatabaseGrid grid);
 	public List<DatabaseGrid> getAllGrids();
-
+	public int nextId();
+	public void dropTable(int id);
 
 }

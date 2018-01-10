@@ -13,7 +13,7 @@ public interface IGridRepository extends MongoRepository<DatabaseGrid,Integer> {
 
 	public DatabaseGrid findById(int id);
 
-	public DatabaseGrid save(DatabaseGrid grid);
 
-	public void delete(DatabaseGrid grid);
+	
+	
 }
