@@ -156,6 +156,21 @@ public class AWebControllerTest  {
 		assertEquals(new DatabaseGrid(expmat,0),arg.getValue());
 		
 	}
+	@Test
+	public void testAddOneTableWhenWrongContent() throws Exception {
+	
+		mockMvc.perform(post("/addtable").with(httpBasic("user","password")).
+				param("content","pippopluto").
+				param("n","2")).
+				andExpect(status().is3xxRedirection()).
+				andExpect(view().name("redirect:/"));
+		verify(gridService,times(1)).nextId();
+		int[][] expmat=new int[][] {{0,0},{0,0}};
+		ArgumentCaptor<DatabaseGrid> arg=ArgumentCaptor.forClass(DatabaseGrid.class);
+		verify(gridService,times(1)).storeInDb(arg.capture());
+		assertEquals(new DatabaseGrid(expmat,0),arg.getValue());
+		
+	}
 	
 	@Test
 	public void testRemoveTableRendering() throws Exception {
