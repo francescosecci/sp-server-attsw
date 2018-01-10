@@ -1,11 +1,17 @@
 package com.pufose.server;
 
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.mockito.BDDMockito.*;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -59,8 +65,40 @@ public class AWebControllerTest  {
 	public void testLoginOk() throws Exception{
 		mockMvc.perform(get("/").with(httpBasic("user","password"))).andExpect(
 				status().isOk());
-				
-		
 	}
-
+	@Test
+	public void testHomepage() throws Exception {
+		mockMvc.perform(get("/").with(httpBasic("user","password"))).
+			andExpect(view().name("database"));
+			
+	}
+	@Test
+	public void testViewDb() throws Exception{
+		mockMvc.perform(get("/viewdb").with(httpBasic("user","password"))).andExpect(
+				status().isOk()).
+				andExpect(view().name("dbview")).
+				andExpect(model().attribute("sizeof",0)).
+				andExpect(model().attribute("gridsList", new ArrayList<>()));
+		verify(gridService,times(1)).getAllGrids();
+	}
+	@Test
+	public void testViewDbWhenThereIsOneGrid() throws Exception{
+		given(gridService.getAllGrids()).willReturn(Arrays.asList(new DatabaseGrid()));
+		mockMvc.perform(get("/viewdb").with(httpBasic("user","password"))).andExpect(
+				status().isOk()).
+				andExpect(view().name("dbview")).
+				andExpect(model().attribute("sizeof",1)).
+				andExpect(model().attribute("gridsList", Arrays.asList(new DatabaseGrid())));
+		verify(gridService,times(1)).getAllGrids();
+	}
+	@Test
+	public void testViewDbWhenThereAreMultipleGrids() throws Exception{
+		given(gridService.getAllGrids()).willReturn(Arrays.asList(new DatabaseGrid(),new DatabaseGrid()));
+		mockMvc.perform(get("/viewdb").with(httpBasic("user","password"))).andExpect(
+				status().isOk()).
+				andExpect(view().name("dbview")).
+				andExpect(model().attribute("sizeof",2)).
+				andExpect(model().attribute("gridsList", Arrays.asList(new DatabaseGrid(),new DatabaseGrid())));
+		verify(gridService,times(1)).getAllGrids();
+	}
 }
