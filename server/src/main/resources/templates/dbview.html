@@ -1,1 +1,21 @@
-<html>to be implemented</html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View database content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+ <p th:text="'Retrieved '+${sizeof} +' grids '" />
+<table>
+	<tr>
+		<th>ID</th>
+		<th>N</th>
+	</tr>
+    <tr th:each="grid: ${gridsList}">
+    	<td th:text="${grid.id}">Test </td>
+    	<td th:text="${grid.n}">Test </td>
+    </tr>
+</table>
+	<p> <a href="/">Go back</a> </p>
+</body>
+</html>

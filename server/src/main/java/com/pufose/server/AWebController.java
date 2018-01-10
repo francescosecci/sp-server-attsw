@@ -17,7 +17,7 @@ public class AWebController {
 	private IGridService service;
 
 	@RequestMapping("/")
-	public String welcome(Map<String, Object> model) {
+	public String welcome(Model model) {
 		return "database";
 	}
 
@@ -36,7 +36,7 @@ public class AWebController {
 		return "tableadd";
 	}
 
-	@PostMapping("/addtable")
+	@PostMapping("/addtable") 
 	public String addtable(@ModelAttribute UserContent content) {
 		int n = content.getN();
 		String cont = content.getContent();
@@ -53,7 +53,7 @@ public class AWebController {
 			}
 		}
 		service.storeInDb(new DatabaseGrid(matrix, service.nextId()));
-		return "database";
+		return "redirect:/";
 
 	}
 	@GetMapping("/remtable")
@@ -65,6 +65,6 @@ public class AWebController {
 	public String remtable(@ModelAttribute UserContent content) {
 	int id=content.getN();
 	service.dropTable(id);
-	return "database";
+	return "redirect:/";
 	}
 }

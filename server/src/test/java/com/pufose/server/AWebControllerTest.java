@@ -117,7 +117,8 @@ public class AWebControllerTest  {
 		mockMvc.perform(post("/addtable").with(httpBasic("user","password")).
 				param("content","1010").
 				param("n","2")).
-				andExpect(status().isOk());
+				andExpect(status().is3xxRedirection()).
+				andExpect(view().name("redirect:/"));
 		verify(gridService,times(1)).nextId();
 		int[][] expmat=new int[][] {{1,0},{1,0}};
 		ArgumentCaptor<DatabaseGrid> arg=ArgumentCaptor.forClass(DatabaseGrid.class);
@@ -131,7 +132,8 @@ public class AWebControllerTest  {
 		mockMvc.perform(post("/addtable").with(httpBasic("user","password")).
 				param("content","1010").
 				param("n","3")).
-				andExpect(status().isOk());
+				andExpect(status().is3xxRedirection()).
+				andExpect(view().name("redirect:/"));
 		verify(gridService,times(1)).nextId();
 		int[][] expmat=new int[][] {{1,0,1},{0,0,0},{0,0,0}};
 		ArgumentCaptor<DatabaseGrid> arg=ArgumentCaptor.forClass(DatabaseGrid.class);
@@ -145,7 +147,8 @@ public class AWebControllerTest  {
 		mockMvc.perform(post("/addtable").with(httpBasic("user","password")).
 				param("content","11101010101010").
 				param("n","2")).
-				andExpect(status().isOk());
+				andExpect(status().is3xxRedirection()).
+				andExpect(view().name("redirect:/"));
 		verify(gridService,times(1)).nextId();
 		int[][] expmat=new int[][] {{1,1},{1,0}};
 		ArgumentCaptor<DatabaseGrid> arg=ArgumentCaptor.forClass(DatabaseGrid.class);
@@ -168,8 +171,8 @@ public class AWebControllerTest  {
 		mockMvc.perform(post("/remtable").with(httpBasic("user","password")).
 				param("content","").
 				param("n","0")).
-				andExpect(status().isOk())
-				.andExpect(view().name("database"));
+				andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/"));
 		verify(gridService,times(1)).dropTable(0);
 		
 		

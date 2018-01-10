@@ -15,10 +15,7 @@ public class ARestController {
 	@Autowired
 	private IGridService service;
 	
-	@GetMapping("/")
-	public String isUp() {
-		return "";
-	}
+
 	
 	@GetMapping("/api")
 	public String index() {
