@@ -11,4 +11,9 @@ public class AWebController {
 		return "index";
 	}
 	
+	@GetMapping("/addtable")
+	public String addtable() {
+		return "addtable";
+	}
+	
 }
