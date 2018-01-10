@@ -113,9 +113,7 @@ public class AWebControllerTest  {
 	}
 	@Test
 	public void testAddOneTable() throws Exception {
-		UserContent atable=new UserContent();
-		atable.setContent("1010");
-		atable.setN(2);
+
 		mockMvc.perform(post("/addtable").with(httpBasic("user","password")).
 				param("content","1010").
 				param("n","2")).
@@ -127,6 +125,35 @@ public class AWebControllerTest  {
 		assertEquals(new DatabaseGrid(expmat,0),arg.getValue());
 		
 	}
+	@Test
+	public void testAddOneTableWhenMissingContent() throws Exception {
+		
+		mockMvc.perform(post("/addtable").with(httpBasic("user","password")).
+				param("content","1010").
+				param("n","3")).
+				andExpect(status().isOk());
+		verify(gridService,times(1)).nextId();
+		int[][] expmat=new int[][] {{1,0,1},{0,0,0},{0,0,0}};
+		ArgumentCaptor<DatabaseGrid> arg=ArgumentCaptor.forClass(DatabaseGrid.class);
+		verify(gridService,times(1)).storeInDb(arg.capture());
+		assertEquals(new DatabaseGrid(expmat,0),arg.getValue());
+		
+	}
+	@Test
+	public void testAddOneTableWhenTooContent() throws Exception {
+	
+		mockMvc.perform(post("/addtable").with(httpBasic("user","password")).
+				param("content","11101010101010").
+				param("n","2")).
+				andExpect(status().isOk());
+		verify(gridService,times(1)).nextId();
+		int[][] expmat=new int[][] {{1,1},{1,0}};
+		ArgumentCaptor<DatabaseGrid> arg=ArgumentCaptor.forClass(DatabaseGrid.class);
+		verify(gridService,times(1)).storeInDb(arg.capture());
+		assertEquals(new DatabaseGrid(expmat,0),arg.getValue());
+		
+	}
+	
 	@Test
 	public void testRemoveTableRendering() throws Exception {
 		
