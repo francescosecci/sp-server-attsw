@@ -42,7 +42,17 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>3.0.0</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
@@ -53,25 +63,25 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-    
+
     <dependency>
-          <groupId>com.google.code.gson</groupId>
-          <artifactId>gson</artifactId>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
     </dependency>
-     <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-     </dependency>
-     
-      <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-security</artifactId>
-     </dependency>
-     
-     <dependency>
-     	<groupId>org.springframework.security</groupId>
-     	<artifactId>spring-security-test</artifactId>
-     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-mongodb</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -81,6 +91,8 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
     </plugins>
+
+
   </build>
 
   <profiles>
@@ -97,7 +109,12 @@
             <version>0.7.7.201606060606</version>
             <configuration>
               <excludes>
-                <exclude>**/Main.*</exclude>
+                <exclude>**/ServerApplication.*</exclude>
+                <exclude>**/DatabaseGrid.*</exclude>
+                <exclude>**/UserContent.*</exclude>
+                <exclude>**/WebSecurityConfig.*</exclude>
+                <exclude>**/IGridRepository.*</exclude>
+                <exclude>**/IGridService.*</exclude>
               </excludes>
             </configuration>
             <executions>
@@ -168,5 +185,34 @@
         </pluginManagement>
       </build>
     </profile>
+    <profile>
+      <id>failsafe</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <includes>
+                <include>**/*IT.java</include>
+              </includes>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
+
 </project>

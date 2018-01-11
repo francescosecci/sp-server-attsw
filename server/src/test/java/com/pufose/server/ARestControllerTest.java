@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.*;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +18,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers=ARestController.class)
@@ -121,7 +124,7 @@ public class ARestControllerTest {
 	}
 	
 	@Test
-	public void testGrid2() throws Exception{
+	public void testGridWhenComplexMatrix() throws Exception{
 		int[][] mat=new int[][] {
 			{1,1},
 			{0,1}
@@ -137,6 +140,18 @@ public class ARestControllerTest {
 			.andExpect(jsonPath("id",is(1)));
 			
 		verify(gridService,times(1)).getById(1);
+	}
+	@Test
+	public void testGridWhenNotExists() throws Exception{
+		given(gridService.getById(1)).
+		willReturn(null);
+	
+	MvcResult res =this.mvc.perform(get("/api/grid1")
+		.accept(MediaType.APPLICATION_JSON))
+		.andExpect(status().isOk())
+		.andReturn();
+		assertEquals("null",res.getResponse().getContentAsString());
+	verify(gridService,times(1)).getById(1);
 	}
 	
 }
