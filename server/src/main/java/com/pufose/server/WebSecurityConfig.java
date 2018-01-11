@@ -15,7 +15,7 @@ import org.springframework.security.web.savedrequest.NullRequestCache;
 		
 	
 		
-		public static final String[] NOT_SECURED = {"/api","/api/**"};
+		private static final String[] NOT_SECURED = {"/api","/api/**"};
 
 		@Override
 		public void configure(WebSecurity web) throws Exception {
