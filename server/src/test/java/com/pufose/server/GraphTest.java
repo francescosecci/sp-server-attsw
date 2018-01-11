@@ -96,7 +96,7 @@ public class GraphTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void addNodeTwiceTest() {
 		g.addNodes(node1);
-		g.addNodes(node2);
+		g.addNodes(node1);
 		assertEquals(1,g.getNodes().size());
 	}
 	
