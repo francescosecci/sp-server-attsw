@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class GraphServiceTest {
+public class GridServiceTest {
 
 	@Mock
 	private IGridRepository gridRepository;
