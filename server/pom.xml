@@ -26,7 +26,7 @@
     <jacoco.report.path>${project.reporting.outputDirectory}/jacocout</jacoco.report.path>
     <sonar.language>java</sonar.language>
     <sonar.jacoco.reportPaths>${jacoco.data.file}</sonar.jacoco.reportPaths>
-    <sonar.coverage.exclusions>**/Main.*</sonar.coverage.exclusions>
+    <sonar.coverage.exclusions>**/ServerApplication.*</sonar.coverage.exclusions>
   </properties>
 
   <dependencies>
