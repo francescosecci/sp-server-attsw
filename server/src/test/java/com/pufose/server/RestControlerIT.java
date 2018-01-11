@@ -1,13 +1,7 @@
 package com.pufose.server;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -132,9 +126,10 @@ public class RestControlerIT {
 		statusCode(200).
 		assertThat().
 		body(
-		is("[0_0,0_1]")
+		is("[\"0_0\",\"0_1\"]")
 		);
 	}
+	
 	
 		
 	
