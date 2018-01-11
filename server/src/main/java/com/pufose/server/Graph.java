@@ -84,7 +84,7 @@ public class Graph {
 	}
 
 	public void removeAllNodes() {
-		nodes.removeAll(nodes);
+		nodes.clear();
 		
 	}
 
