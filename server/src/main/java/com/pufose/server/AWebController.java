@@ -17,7 +17,7 @@ public class AWebController {
 
 	@RequestMapping("/")
 	public String welcome(Model model) {
-		return "database";
+		return "index";
 	}
 
 	@RequestMapping("/viewdb")
