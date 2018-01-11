@@ -20,10 +20,11 @@ public class Graph {
 	}
 	
 	public void addNodes(String name) {
+		if(nodes.contains(name)) throw new IllegalArgumentException("Node "+name+" is still added");
 		nodes.add(name);
 	}
 	public List<String> getNodes(){
-		return new LinkedList<>(nodes);
+		return nodes;
 	}
 	public void addEdge(String node1, String node2) {
 		if(!containsNode(node1)) throw new IllegalArgumentException("Node "+node1+" does not exists");
@@ -36,7 +37,7 @@ public class Graph {
 	}
 
 	public List<String[]> getEdges(){
-		return new LinkedList<>(edges);
+		return edges;
 	}
 	
 	public List<String> minPath(String from, String to) {
@@ -80,6 +81,11 @@ public class Graph {
 			}
 		}
 		return neighbours.toString().split(" ");
+	}
+
+	public void removeAllNodes() {
+		nodes.removeAll(nodes);
+		
 	}
 
 	

@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,6 +42,10 @@ public class GraphTest {
 		emptyMinPath = new LinkedList<>();
 	}
 
+	@After
+	public void tearDown() {
+		g.removeAllNodes();
+	}
 	@Test(expected = IllegalArgumentException.class)
 	public void addEdgeWhenFirstNodeIsNotInListTest() {
 		addNodesToList();
@@ -88,7 +93,13 @@ public class GraphTest {
 		addNodesToExpectedMinPath();
 		assertEquals(g.minPath(node6, node7), emptyMinPath);
 	}
-
+	@Test(expected=IllegalArgumentException.class)
+	public void addNodeTwiceTest() {
+		g.addNodes(node1);
+		g.addNodes(node2);
+		assertEquals(1,g.getNodes().size());
+	}
+	
 	private void addNodesToExpectedMinPath() {
 		minPath.add(node6);
 		minPath.add(node4);
@@ -121,6 +132,6 @@ public class GraphTest {
 		g.addNodes(node2);
 	}
 
-
+	
 
 }
