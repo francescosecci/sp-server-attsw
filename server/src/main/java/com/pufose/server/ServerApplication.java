@@ -12,6 +12,7 @@ public class ServerApplication {
 	 * ServerApplication must implement CommandLineRunner
 	 * """"""""""""""""" must have a field repo of type IGridRepository @Autowired
 	 * """"""""""""""""" must have a run() method wich calls repo.save(a_DatabaseGrid);
+	 *
 	 */
 
 	
