@@ -2,7 +2,7 @@ package com.pufose.server;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,6 +21,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -92,4 +93,84 @@ public class GridViewHtmlUnitTest {
 
 	}
 
+	@Test
+	public void tableAddTest() throws FailingHttpStatusCodeException, MalformedURLException, IOException {
+		HtmlPage page = this.webClient.getPage("/addtable");
+		List<DomElement> h1 = page.getElementsByTagName("h1");
+		assertThat(h1.size()).isEqualTo(1);
+		final HtmlForm form = page.getFormByName("form");
+		form.getInputByName("n").setValueAttribute("0");
+		form.getInputByName("content").setValueAttribute("1101");
+		int[][] matrix = new int[][] { { 0, 0 }, { 0, 0 } };
+		ArgumentCaptor<DatabaseGrid> arg = ArgumentCaptor.forClass(DatabaseGrid.class);
+		final HtmlButton submit = form.getButtonByName("submit");
+		final HtmlPage page2 = submit.click();
+		// DatabaseGrid expected = new DatabaseGrid(matrix,1);
+		verify(gridService, times(1)).storeInDb(arg.capture());
+		HtmlPage page1 = this.webClient.getPage("/");
+		assertEquals(page1.getTitleText(), page2.getTitleText());
+		// final HtmlButton reset = form.getButtonByName("reset");
+		// assertEquals( "Reset",reset.getNodeValue());
+
+	}
+
+	@Test
+	public void tableRemoveTest() throws FailingHttpStatusCodeException, MalformedURLException, IOException {
+		HtmlPage page = this.webClient.getPage("/remtable");
+		List<DomElement> h1 = page.getElementsByTagName("h1");
+		assertThat(h1.size()).isEqualTo(1);
+		final HtmlForm form = page.getFormByName("form");
+		form.getInputByName("n").setValueAttribute("0");
+		final HtmlButton button = form.getButtonByName("submit");
+		final HtmlPage page2 = button.click();
+		verify(gridService, times(1)).dropTable(0);
+		HtmlPage page1 = this.webClient.getPage("/");
+		assertEquals(page1.getTitleText(), page2.getTitleText());
+		// final HtmlButton reset = form.getButtonByName("reset");
+		// assertEquals(reset.getNodeValue(), "Reset");
+
+	}
+
+	@Test
+	public void tableViewWithNoGridTest() throws FailingHttpStatusCodeException, MalformedURLException, IOException {
+		HtmlPage page = this.webClient.getPage("/viewdb");
+		assertThat(page.getTitleText()).isEqualTo("Database contents view");
+		assertThat(page.getBody().getTextContent()).contains("No Grid");
+
+	}
+
+	@Test
+	public void HomePageWithGrids() throws Exception {
+		int[][] matrix1 = new int[][] { { 0, 0 }, { 0, 0 } };
+		int[][] matrix2 = new int[][] { { 1, 1, 1 }, { 1, 1, 1 } };
+		when(gridService.getAllGrids())
+	.thenReturn(Arrays.asList(new DatabaseGrid(matrix1,1),new DatabaseGrid(matrix2,2)));
+		
+	HtmlPage page = this.webClient.getPage("/viewdb");
+	HtmlTable table = page.getHtmlElementById("grid_table");
+
+	assertThat(page.getBody().getTextContent())
+	.doesNotContain("No Grids");
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

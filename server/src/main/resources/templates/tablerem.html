@@ -6,9 +6,10 @@
 </head>
 <body>
 	<h1>Input</h1>
-    <form action="#" th:action="@{/remtable}" th:object="${usercontent}" method="post">
+    <form name ="form" action="#" th:action="@{/remtable}" th:object="${usercontent}" method="post">
     	<p>Id to remove: <input type="number" th:field="*{n}" /></p>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        <button name="submit" type="submit" value="Submit" ></button>
+        <button type="reset" value="Reset" ></button>
     </form>
     <p> <a href="/">Go back</a> </p>
 </body>

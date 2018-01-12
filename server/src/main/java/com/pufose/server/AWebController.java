@@ -17,12 +17,13 @@ public class AWebController {
 
 	@RequestMapping("/")
 	public String welcome(Model model) {
-		return "index";
+		return "database";
 	}
 
 	@RequestMapping("/viewdb")
 	public String viewdb(Model model) {
 		List<DatabaseGrid> allGrids = service.getAllGrids();
+		model.addAttribute("allGrids", allGrids);
 		model.addAttribute("sizeof", allGrids.size());
 		model.addAttribute("gridsList", allGrids);
 		return "dbview";
