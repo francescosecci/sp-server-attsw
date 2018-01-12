@@ -84,11 +84,8 @@ public class GridService implements IGridService {
 
 	public int nextId() {
 		List<DatabaseGrid> allGrids = repository.findAll();
-		int maxid = 0;
-		for (DatabaseGrid grid : allGrids) {
-			if (grid.getId() > maxid)
-				maxid = grid.getId();
-		}
+		if(allGrids.isEmpty()) return 1;
+		int maxid=allGrids.get(allGrids.size()-1).getId();
 		return maxid + 1;
 	}
 
