@@ -45,7 +45,7 @@ public class GridService implements IGridService {
 			int i=node.charAt(0)-48;
 			int j=node.charAt(2)-48;
 			
-			if(i<n-1 && grid.isEnabled(i+1,j) ) {
+			if(grid.isEnabled(i+1,j) ) {
 				String target=String.format(D_D, i+1,j);
 				tobuild.addEdge(node, target);
 			}
@@ -57,7 +57,7 @@ public class GridService implements IGridService {
 				String target=String.format(D_D, i,j+1);
 				tobuild.addEdge(node,target);
 			}
-			if(j>0 && grid.isEnabled(i, j-1)) {
+			if(grid.isEnabled(i, j-1)) {
 				String target=String.format(D_D, i,j-1);
 				tobuild.addEdge(node, target);
 			}
