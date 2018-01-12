@@ -1,25 +1,32 @@
 package com.pufose.server;
+
 import java.util.Arrays;
 
 public class DatabaseGrid {
-	
+
 	public DatabaseGrid(int[][] matrix, int id) {
+		for (int i = 0, l = matrix.length; i < l; i++) {
+			if (matrix[i].length != l) {
+				throw new IllegalArgumentException("Matrix must be square");
+			}
+		}
 		this.matrix = matrix;
 		this.n = matrix.length;
-		this.setId(id);
+		this.id = id;
 	}
 
 	public DatabaseGrid(int id) {
-		this.n=0;
-		this.id=id;
-		this.matrix=new int[0][0];
+		this.n = 0;
+		this.id = id;
+		this.matrix = new int[0][0];
 	}
+
 	public DatabaseGrid() {
-		this.n=0;
-		this.id=0;
-		this.matrix=new int[0][0];
+		this.n = 0;
+		this.id = 0;
+		this.matrix = new int[0][0];
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -52,8 +59,6 @@ public class DatabaseGrid {
 	private int[][] matrix;
 	private int id;
 
-	
-
 	public int getN() {
 		return n;
 	}
@@ -65,7 +70,7 @@ public class DatabaseGrid {
 	public boolean isEnabled(int i, int j) {
 		try {
 			return matrix[i][j] > 0;
-		} catch (Exception exc) {
+		} catch (ArrayIndexOutOfBoundsException exc) {
 			return false;
 		}
 	}
@@ -77,8 +82,7 @@ public class DatabaseGrid {
 	public int getId() {
 		return id;
 	}
-	
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
