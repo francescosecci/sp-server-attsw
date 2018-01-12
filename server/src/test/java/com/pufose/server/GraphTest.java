@@ -8,9 +8,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class GraphTest {
 
@@ -56,7 +54,12 @@ public class GraphTest {
 		g.addEdge(node1, node3);
 		
 	}
-
+	@Test
+	public void removeNodesTest() {
+		addNodesToList();
+		g.removeAllNodes();
+		assertEquals(0,g.getNodes().size());
+	}
 	@Test
 	public void addEdgeWhenNodeAreInListTest() {
 		addNodesToList();
@@ -88,12 +91,7 @@ public class GraphTest {
 		addNodesToExpectedMinPath();
 		assertEquals(g.minPath(node6, node7), emptyMinPath);
 	}
-	@Test
-	public void addNodeOkTest() {
-		g.addNodes(node1);
-		assertEquals(1,g.getNodes().size());
-		assertEquals("nodo1",g.getNodes().get(0));
-	}
+	
 	@Test(expected=IllegalArgumentException.class)
 	public void addNodeTwiceTest() {
 		g.addNodes(node1);
