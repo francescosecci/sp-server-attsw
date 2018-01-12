@@ -49,11 +49,11 @@ public class GridService implements IGridService {
 				String target=String.format(D_D, i+1,j);
 				tobuild.addEdge(node, target);
 			}
-			if(i>0 && grid.isEnabled(i-1, j) ) {
+			if(grid.isEnabled(i-1, j) ) {
 				String target=String.format(D_D, i-1,j);		
 				tobuild.addEdge(node,target);
 			}
-			if(j<n-1 && grid.isEnabled(i, j+1)) {
+			if(grid.isEnabled(i, j+1)) {
 				String target=String.format(D_D, i,j+1);
 				tobuild.addEdge(node,target);
 			}
