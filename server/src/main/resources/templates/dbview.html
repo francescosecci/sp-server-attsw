@@ -10,10 +10,12 @@
 	<tr>
 		<th>ID</th>
 		<th>N</th>
+		<th>GRID</th>
 	</tr>
     <tr th:each="grid: ${gridsList}">
     	<td th:text="${grid.id}">Test </td>
     	<td th:text="${grid.n}">Test </td>
+    	<td th:text="${grid.matrixAsString}">Test </td>
     </tr>
 </table>
 	<p> <a href="/">Go back</a> </p>

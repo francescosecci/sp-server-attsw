@@ -25,6 +25,7 @@ public class AWebController {
 		List<DatabaseGrid> allGrids = service.getAllGrids();
 		model.addAttribute("sizeof", allGrids.size());
 		model.addAttribute("gridsList", allGrids);
+		
 		return "dbview";
 
 	}
