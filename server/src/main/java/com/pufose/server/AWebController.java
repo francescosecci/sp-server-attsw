@@ -29,7 +29,7 @@ public class AWebController {
 		return "dbview";
 
 	}
-
+	
 	@GetMapping("/addtable")
 	public String addtableForm(Model model) {
 		model.addAttribute("usercontent", new UserContent());
@@ -37,8 +37,13 @@ public class AWebController {
 	}
 
 	@PostMapping("/addtable") 
-	public String addtable(@ModelAttribute UserContent content) {
+	public String addtable(@ModelAttribute UserContent content, Model mod) {
 		int n = content.getN();
+		if(n<0) {
+			mod.addAttribute("usercontent",new UserContent());
+			mod.addAttribute("errormessage","Matrix size must be >= 0");
+			return "tableadd";
+		}
 		String cont = content.getContent();
 		int[][] matrix = new int[n][n];
 		int contiter = 0;
