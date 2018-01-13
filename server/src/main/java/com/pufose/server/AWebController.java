@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AWebController {
 	@Autowired
 	private IGridService service;
-
+	private static final String usercontent="usercontent";
 	@RequestMapping("/")
 	public String welcome(Model model) {
 		return "database";
@@ -32,7 +32,7 @@ public class AWebController {
 	
 	@GetMapping("/addtable")
 	public String addtableForm(Model model) {
-		model.addAttribute("usercontent", new UserContent());
+		model.addAttribute(usercontent, new UserContent());
 		return "tableadd";
 	}
 
@@ -40,7 +40,7 @@ public class AWebController {
 	public String addtable(@ModelAttribute UserContent content, Model mod) {
 		int n = content.getN();
 		if(n<0) {
-			mod.addAttribute("usercontent",new UserContent());
+			mod.addAttribute(usercontent,new UserContent());
 			mod.addAttribute("errormessage","Matrix size must be >= 0");
 			return "tableadd";
 		}
@@ -63,7 +63,7 @@ public class AWebController {
 	}
 	@GetMapping("/remtable")
     public String remtableForm(Model model) {
-        model.addAttribute("usercontent", new UserContent());
+        model.addAttribute(usercontent, new UserContent());
         return "tablerem";
     }
 	@PostMapping("/remtable")
