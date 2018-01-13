@@ -31,12 +31,14 @@ public class GridService implements IGridService {
 		
 		
 		DatabaseGrid grid=repository.findById(id);
+		tobuild.removeAllNodes();
 		addNodes(grid);
 		for(String node:tobuild.getNodes()) {
 			addEdges(grid, node);
 		}
 		return tobuild.minPath(from,to);
 }
+
 
 	private void addEdges(DatabaseGrid grid, String node) {
 		int i=node.charAt(0)-48;
@@ -67,8 +69,9 @@ public class GridService implements IGridService {
 		int n=grid.getN();
 		for(int i=0; i<n;i++) {
 			for(int j=0; j<n;j++) {
-				if(grid.isEnabled(i, j)) {
-					tobuild.addNodes(grid.getName(i, j));
+				if(grid.isEnabled(i, j) ) {
+						tobuild.addNodes(grid.getName(i, j));
+					
 				}
 			}
 		}
