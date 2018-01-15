@@ -3,6 +3,7 @@ package com.pufose.server;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -133,7 +134,7 @@ public class GridViewHtmlUnitTest {
 		final HtmlButton reset = form.getButtonByName("reset");
 		reset.click();
 
-		assertThat(form.getInputByName("n").getAttribute("value").equals(""));
+		assertTrue(form.getInputByName("n").getAttribute("value").equals(""));
 		assertEquals(form.getInputByName("content").getValueAttribute(), "");
 
 	}
@@ -145,7 +146,7 @@ public class GridViewHtmlUnitTest {
 		form.getInputByName("n").setValueAttribute("0");
 		final HtmlButton reset = form.getButtonByName("reset");
 		reset.click();
-		assertThat(form.getInputByName("n").getAttribute("value").equals(""));
+		assertTrue(form.getInputByName("n").getAttribute("value").equals(""));
 
 	}
 
