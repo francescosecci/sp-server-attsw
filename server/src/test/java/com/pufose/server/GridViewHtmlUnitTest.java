@@ -79,7 +79,6 @@ public class GridViewHtmlUnitTest {
 		assertThat(page.getTitleText()).isEqualTo("Home Page");
 		List<DomElement> h1 = page.getElementsByTagName("h1");
 		assertThat(h1.size()).isEqualTo(1);
-		// aggiungere eventualmente che il contenuto sia "Manage Database"
 
 		final HtmlDivision div = page.getHtmlElementById("choice");
 		assertNotNull(div);
@@ -93,6 +92,18 @@ public class GridViewHtmlUnitTest {
 		assertEquals(a.toString(), "HtmlAnchor[<a href=\"/viewdb\">]");
 		assertEquals(a1.toString(), "HtmlAnchor[<a href=\"/addtable\">]");
 		assertEquals(a2.toString(), "HtmlAnchor[<a href=\"/remtable\">]");
+
+		HtmlPage pageTemp = a.click();
+		HtmlPage pageExpected = this.webClient.getPage("/viewdb");
+		assertEquals(pageTemp.getTitleText(), pageExpected.getTitleText());
+
+		pageTemp = a1.click();
+		pageExpected = this.webClient.getPage("/addtable");
+		assertEquals(pageTemp.getTitleText(), pageExpected.getTitleText());
+
+		pageTemp = a2.click();
+		pageExpected = this.webClient.getPage("/remtable");
+		assertEquals(pageTemp.getTitleText(), pageExpected.getTitleText());
 
 	}
 
@@ -123,14 +134,22 @@ public class GridViewHtmlUnitTest {
 		form.getInputByName("content").setValueAttribute("1101");
 		final HtmlButton reset = form.getButtonByName("reset");
 		reset.click();
-		
-		//assertEquals(form.getInputByName("n").getValueAttribute(), "0");
+
 		assertThat(form.getInputByName("n").getAttribute("value").equals(""));
 		assertEquals(form.getInputByName("content").getValueAttribute(), "");
 
 	}
-	
-	
+
+	@Test
+	public void tableRemoveResetTest() throws FailingHttpStatusCodeException, MalformedURLException, IOException {
+		HtmlPage page = this.webClient.getPage("/remtable");
+		final HtmlForm form = page.getFormByName("form");
+		form.getInputByName("n").setValueAttribute("0");
+		final HtmlButton reset = form.getButtonByName("reset");
+		reset.click();
+		assertThat(form.getInputByName("n").getAttribute("value").equals(""));
+
+	}
 
 	@Test
 	public void tableRemoveTest() throws FailingHttpStatusCodeException, MalformedURLException, IOException {
