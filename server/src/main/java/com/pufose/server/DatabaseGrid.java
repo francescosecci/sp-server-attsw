@@ -11,7 +11,6 @@ public class DatabaseGrid {
 			}
 		}
 		this.matrix = matrix;
-		this.setMatrixAsString(Arrays.deepToString(matrix));
 		this.n = matrix.length;
 		this.id = id;
 	}
@@ -59,7 +58,6 @@ public class DatabaseGrid {
 	private int n;
 	private int[][] matrix;
 	private int id;
-	private String matrixAsString;
 
 	public int getN() {
 		return n;
@@ -67,6 +65,10 @@ public class DatabaseGrid {
 
 	public void setN(int n) {
 		this.n = n;
+	}
+
+	public int[][] getMatrix() {
+		return matrix;
 	}
 
 	public boolean isEnabled(int i, int j) {
@@ -89,11 +91,5 @@ public class DatabaseGrid {
 		this.id = id;
 	}
 
-	public String getMatrixAsString() {
-		return matrixAsString;
-	}
 
-	public void setMatrixAsString(String matrixAsString) {
-		this.matrixAsString = matrixAsString;
-	}
 }

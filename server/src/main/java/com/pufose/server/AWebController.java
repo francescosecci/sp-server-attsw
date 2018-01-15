@@ -23,9 +23,7 @@ public class AWebController {
 	@RequestMapping("/viewdb")
 	public String viewdb(Model model) {
 		List<DatabaseGrid> allGrids = service.getAllGrids();
-		model.addAttribute("sizeof", allGrids.size());
-		model.addAttribute("gridsList", allGrids);
-		
+		model.addAttribute("allGrids", allGrids);
 		return "dbview";
 
 	}

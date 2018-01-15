@@ -1,23 +1,17 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-<title>Database Manager</title>
+<title>Home Page</title>
+
 </head>
+
 <body>
-<p> Manage Database </p>
-<div id="make choice">
-	<table>
-		<tr> 
-			<td> <a href="/viewdb">View contents</a> </td> 
-		</tr>
-		<tr> 
-			<td> <a href="/addtable">Add table</a> </td> 
-		</tr> 
-		<tr> 
-			<td> <a href="/remtable">Remove table</a> </td> 
-		</tr>
-	</table>
-</div>
+	<h1>Manage Database</h1>
+	<div id="choice">
+		<ul id="list">
+			<li><a href="/viewdb">View contents</a></li>
+			<li><a href="/addtable">Add table</a></li>
+			<li><a href="/remtable">Remove table</a></li>
+		</ul>
+	</div>
 </body>
 </html>
