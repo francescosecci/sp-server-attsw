@@ -123,7 +123,20 @@ public class GridViewHtmlUnitTest {
 		verify(gridService, times(1)).storeInDb(arg.capture());
 		HtmlPage page1 = this.webClient.getPage("/");
 		assertEquals(page1.getTitleText(), page2.getTitleText());
-
+		
+		assertGoBackIsWorking(page);
+	
+	}
+	
+	
+	private void assertGoBackIsWorking(HtmlPage page) throws FailingHttpStatusCodeException, MalformedURLException, IOException {
+		
+		final HtmlAnchor a = page.getAnchorByHref("/");
+		assertEquals(a.toString(), "HtmlAnchor[<a href=\"/\">]");
+		HtmlPage pageTemp = a.click();
+		HtmlPage pageExpected = this.webClient.getPage("/");
+		assertEquals(pageTemp.getTitleText(), pageExpected.getTitleText());
+		
 	}
 
 	@Test
@@ -163,6 +176,9 @@ public class GridViewHtmlUnitTest {
 		verify(gridService, times(1)).dropTable(0);
 		HtmlPage page1 = this.webClient.getPage("/");
 		assertEquals(page1.getTitleText(), page2.getTitleText());
+		
+		assertGoBackIsWorking(page);
+		
 
 	}
 
@@ -171,6 +187,8 @@ public class GridViewHtmlUnitTest {
 		HtmlPage page = this.webClient.getPage("/viewdb");
 		assertThat(page.getTitleText()).isEqualTo("Database contents view");
 		assertThat(page.getBody().getTextContent()).contains("No Grid");
+		
+		assertGoBackIsWorking(page);
 
 	}
 
@@ -204,6 +222,10 @@ public class GridViewHtmlUnitTest {
 		expectedCells.add("3");
 
 		assertThat(cells).isEqualTo(expectedCells);
+		
+		assertGoBackIsWorking(page);
+		
+		
 
 	}
 
