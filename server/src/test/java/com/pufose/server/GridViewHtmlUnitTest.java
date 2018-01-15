@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,6 +43,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlHeading1;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
+import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
+import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 import com.gargoylesoftware.htmlunit.html.HtmlUnorderedList;
 import com.gargoylesoftware.htmlunit.javascript.host.dom.NodeList;
 import static org.mockito.BDDMockito.*;
@@ -109,10 +112,25 @@ public class GridViewHtmlUnitTest {
 		verify(gridService, times(1)).storeInDb(arg.capture());
 		HtmlPage page1 = this.webClient.getPage("/");
 		assertEquals(page1.getTitleText(), page2.getTitleText());
-		// final HtmlButton reset = form.getButtonByName("reset");
-		// assertEquals( "Reset",reset.getNodeValue());
 
 	}
+
+	@Test
+	public void tableAddResesetTest() throws FailingHttpStatusCodeException, MalformedURLException, IOException {
+		HtmlPage page = this.webClient.getPage("/addtable");
+		final HtmlForm form = page.getFormByName("form");
+		form.getInputByName("n").setValueAttribute("0");
+		form.getInputByName("content").setValueAttribute("1101");
+		final HtmlButton reset = form.getButtonByName("reset");
+		reset.click();
+		
+		//assertEquals(form.getInputByName("n").getValueAttribute(), "0");
+		assertThat(form.getInputByName("n").getAttribute("value").equals(""));
+		assertEquals(form.getInputByName("content").getValueAttribute(), "");
+
+	}
+	
+	
 
 	@Test
 	public void tableRemoveTest() throws FailingHttpStatusCodeException, MalformedURLException, IOException {
@@ -126,8 +144,6 @@ public class GridViewHtmlUnitTest {
 		verify(gridService, times(1)).dropTable(0);
 		HtmlPage page1 = this.webClient.getPage("/");
 		assertEquals(page1.getTitleText(), page2.getTitleText());
-		// final HtmlButton reset = form.getButtonByName("reset");
-		// assertEquals(reset.getNodeValue(), "Reset");
 
 	}
 
@@ -142,35 +158,34 @@ public class GridViewHtmlUnitTest {
 	@Test
 	public void HomePageWithGrids() throws Exception {
 		int[][] matrix1 = new int[][] { { 0, 0 }, { 0, 0 } };
-		int[][] matrix2 = new int[][] { { 1, 1, 1 }, { 1, 1, 1 } };
-		when(gridService.getAllGrids())
-	.thenReturn(Arrays.asList(new DatabaseGrid(matrix1,1),new DatabaseGrid(matrix2,2)));
-		
-	HtmlPage page = this.webClient.getPage("/viewdb");
-	HtmlTable table = page.getHtmlElementById("grid_table");
+		int[][] matrix2 = new int[][] { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } };
+		DatabaseGrid expected1 = new DatabaseGrid(matrix1, 1);
+		DatabaseGrid expected2 = new DatabaseGrid(matrix2, 2);
+		when(gridService.getAllGrids()).thenReturn(Arrays.asList(expected1, expected2));
 
-	assertThat(page.getBody().getTextContent())
-	.doesNotContain("No Grids");
+		HtmlPage page = this.webClient.getPage("/viewdb");
+		assertThat(page.getTitleText()).isEqualTo("Database contents view");
+		assertThat(page.getBody().getTextContent()).doesNotContain("No Grids");
+
+		HtmlTable table = page.getHtmlElementById("grid_table");
+
+		List<String> cells = new ArrayList<String>();
+		for (final HtmlTableRow row : table.getRows()) {
+			System.out.println("Found row");
+			for (final HtmlTableCell cell : row.getCells()) {
+				cells.add(cell.asText());
+			}
+		}
+		List<String> expectedCells = new ArrayList<String>();
+		expectedCells.add("ID");
+		expectedCells.add("N");
+		expectedCells.add("1");
+		expectedCells.add("2");
+		expectedCells.add("2");
+		expectedCells.add("3");
+
+		assertThat(cells).isEqualTo(expectedCells);
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

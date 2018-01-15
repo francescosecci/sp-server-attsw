@@ -1,8 +1,9 @@
 package com.pufose.server;
+
 import java.util.Arrays;
 
 public class DatabaseGrid {
-	
+
 	public DatabaseGrid(int[][] matrix, int id) {
 		this.matrix = matrix;
 		this.n = matrix.length;
@@ -10,16 +11,17 @@ public class DatabaseGrid {
 	}
 
 	public DatabaseGrid(int id) {
-		this.n=0;
-		this.id=id;
-		this.matrix=new int[0][0];
+		this.n = 0;
+		this.id = id;
+		this.matrix = new int[0][0];
 	}
+
 	public DatabaseGrid() {
-		this.n=0;
-		this.id=0;
-		this.matrix=new int[0][0];
+		this.n = 0;
+		this.id = 0;
+		this.matrix = new int[0][0];
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -52,14 +54,16 @@ public class DatabaseGrid {
 	private int[][] matrix;
 	private int id;
 
-	
-
 	public int getN() {
 		return n;
 	}
 
 	public void setN(int n) {
 		this.n = n;
+	}
+
+	public int[][] getMatrix() {
+		return matrix;
 	}
 
 	public boolean isEnabled(int i, int j) {
@@ -77,8 +81,7 @@ public class DatabaseGrid {
 	public int getId() {
 		return id;
 	}
-	
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}

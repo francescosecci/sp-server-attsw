@@ -24,8 +24,9 @@ public class AWebController {
 	public String viewdb(Model model) {
 		List<DatabaseGrid> allGrids = service.getAllGrids();
 		model.addAttribute("allGrids", allGrids);
-		model.addAttribute("sizeof", allGrids.size());
-		model.addAttribute("gridsList", allGrids);
+		//model.addAttribute("sizeof", allGrids.size());
+		//model.addAttribute("gridsList", allGrids);
+		//model.addAttribute("matrix", allGrids.);
 		return "dbview";
 
 	}
