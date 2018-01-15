@@ -1,8 +1,9 @@
 package com.pufose.server;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -15,39 +16,27 @@ import java.util.List;
 
 import javax.xml.bind.DatatypeConverter;
 
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.Credentials;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.gargoylesoftware.htmlunit.DefaultCredentialsProvider;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomElement;
-import com.gargoylesoftware.htmlunit.html.DomNode;
-import com.gargoylesoftware.htmlunit.html.DomNodeList;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlHeading1;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 import com.gargoylesoftware.htmlunit.html.HtmlUnorderedList;
-import com.gargoylesoftware.htmlunit.javascript.host.dom.NodeList;
-import static org.mockito.BDDMockito.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = AWebController.class)
@@ -115,15 +104,11 @@ public class GridViewHtmlUnitTest {
 		final HtmlForm form = page.getFormByName("form");
 		form.getInputByName("n").setValueAttribute("0");
 		form.getInputByName("content").setValueAttribute("1101");
-		int[][] matrix = new int[][] { { 0, 0 }, { 0, 0 } };
-		ArgumentCaptor<DatabaseGrid> arg = ArgumentCaptor.forClass(DatabaseGrid.class);
 		final HtmlButton submit = form.getButtonByName("submit");
 		final HtmlPage page2 = submit.click();
-		// DatabaseGrid expected = new DatabaseGrid(matrix,1);
-		verify(gridService, times(1)).storeInDb(arg.capture());
+		verify(gridService, times(1)).storeInDb(isA(DatabaseGrid.class));
 		HtmlPage page1 = this.webClient.getPage("/");
 		assertEquals(page1.getTitleText(), page2.getTitleText());
-		
 		assertGoBackIsWorking(page);
 	
 	}
