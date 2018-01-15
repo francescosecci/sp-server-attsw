@@ -80,8 +80,7 @@ public class AWebControllerTest  {
 		mockMvc.perform(get("/viewdb").with(httpBasic("user","password"))).andExpect(
 				status().isOk()).
 				andExpect(view().name("dbview")).
-				andExpect(model().attribute("sizeof",0)).
-				andExpect(model().attribute("gridsList", new ArrayList<>()));
+				andExpect(model().attribute("allGrids", new ArrayList<>()));
 		verify(gridService,times(1)).getAllGrids();
 	}
 	@Test
@@ -90,8 +89,7 @@ public class AWebControllerTest  {
 		mockMvc.perform(get("/viewdb").with(httpBasic("user","password"))).andExpect(
 				status().isOk()).
 				andExpect(view().name("dbview")).
-				andExpect(model().attribute("sizeof",1)).
-				andExpect(model().attribute("gridsList", Arrays.asList(new DatabaseGrid())));
+				andExpect(model().attribute("allGrids", Arrays.asList(new DatabaseGrid())));
 		verify(gridService,times(1)).getAllGrids();
 	}
 	@Test
@@ -100,8 +98,7 @@ public class AWebControllerTest  {
 		mockMvc.perform(get("/viewdb").with(httpBasic("user","password"))).andExpect(
 				status().isOk()).
 				andExpect(view().name("dbview")).
-				andExpect(model().attribute("sizeof",2)).
-				andExpect(model().attribute("gridsList", Arrays.asList(new DatabaseGrid(),new DatabaseGrid())));
+				andExpect(model().attribute("allGrids", Arrays.asList(new DatabaseGrid(),new DatabaseGrid())));
 		verify(gridService,times(1)).getAllGrids();
 	}
 	@Test
