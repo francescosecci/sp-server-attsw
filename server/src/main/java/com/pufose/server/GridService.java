@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,39 +31,51 @@ public class GridService implements IGridService {
 		
 		
 		DatabaseGrid grid=repository.findById(id);
-		int n=grid.getN();
-		for(int i=0; i<n;i++) {
-			for(int j=0; j<n;j++) {
-				if(grid.isEnabled(i, j)) {
-					
-					tobuild.addNodes(grid.getName(i, j));
-				}
-			}
-		}
+		tobuild.removeAllNodes();
+		addNodes(grid);
 		for(String node:tobuild.getNodes()) {
-		
-			int i=node.charAt(0)-48;
-			int j=node.charAt(2)-48;
-			
-			if(i<n-1 && grid.isEnabled(i+1,j) ) {
-				String target=String.format(D_D, i+1,j);
-				tobuild.addEdge(node, target);
-			}
-			if(i>0 && grid.isEnabled(i-1, j) ) {
-				String target=String.format(D_D, i-1,j);		
-				tobuild.addEdge(node,target);
-			}
-			if(j<n-1 && grid.isEnabled(i, j+1)) {
-				String target=String.format(D_D, i,j+1);
-				tobuild.addEdge(node,target);
-			}
-			if(j>0 && grid.isEnabled(i, j-1)) {
-				String target=String.format(D_D, i,j-1);
-				tobuild.addEdge(node, target);
-			}
+			addEdges(grid, node);
 		}
 		return tobuild.minPath(from,to);
 }
+
+
+	private void addEdges(DatabaseGrid grid, String node) {
+		int i=node.charAt(0)-48;
+		int j=node.charAt(2)-48;
+		
+		if(grid.isEnabled(i+1,j) ) {
+			String target=String.format(D_D, i+1,j);
+			
+			tobuild.addEdge(node, target);
+		}
+		if(grid.isEnabled(i-1, j) ) {
+			String target=String.format(D_D, i-1,j);		
+			tobuild.addEdge(node,target);
+		}
+		if(grid.isEnabled(i, j+1)) {
+			String target=String.format(D_D, i,j+1);
+			
+			tobuild.addEdge(node,target);
+		}
+		if(grid.isEnabled(i, j-1)) {
+			String target=String.format(D_D, i,j-1);
+			
+			tobuild.addEdge(node, target);
+		}
+	}
+
+	private void addNodes(DatabaseGrid grid) {
+		int n=grid.getN();
+		for(int i=0; i<n;i++) {
+			for(int j=0; j<n;j++) {
+				if(grid.isEnabled(i, j) ) {
+						tobuild.addNodes(grid.getName(i, j));
+					
+				}
+			}
+		}
+	}
 
 	@Override
 	public DatabaseGrid getById(int id) {
@@ -85,11 +96,8 @@ public class GridService implements IGridService {
 
 	public int nextId() {
 		List<DatabaseGrid> allGrids = repository.findAll();
-		int maxid = 0;
-		for (DatabaseGrid grid : allGrids) {
-			if (grid.getId() > maxid)
-				maxid = grid.getId();
-		}
+		if(allGrids.isEmpty()) return 1;
+		int maxid=allGrids.get(allGrids.size()-1).getId();
 		return maxid + 1;
 	}
 

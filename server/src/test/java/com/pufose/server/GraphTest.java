@@ -6,10 +6,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class GraphTest {
 
@@ -23,9 +22,6 @@ public class GraphTest {
 	private String node7;
 	private List<String> minPath;
 	private List<String> emptyMinPath;
-
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
 
 	@Before
 	public void setUp() {
@@ -41,22 +37,29 @@ public class GraphTest {
 		emptyMinPath = new LinkedList<>();
 	}
 
+	@After
+	public void tearDown() {
+		g.removeAllNodes();
+	}
 	@Test(expected = IllegalArgumentException.class)
 	public void addEdgeWhenFirstNodeIsNotInListTest() {
 		addNodesToList();
 		g.addEdge(node3, node1);
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("Node nodo3 does not exists");
+
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void addEdgeWhenSecondNodeIsNotInListTest() {
 		addNodesToList();
 		g.addEdge(node1, node3);
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("Node nodo3 does not exists");
+		
 	}
-
+	@Test
+	public void removeNodesTest() {
+		addNodesToList();
+		g.removeAllNodes();
+		assertEquals(0,g.getNodes().size());
+	}
 	@Test
 	public void addEdgeWhenNodeAreInListTest() {
 		addNodesToList();
@@ -88,7 +91,13 @@ public class GraphTest {
 		addNodesToExpectedMinPath();
 		assertEquals(g.minPath(node6, node7), emptyMinPath);
 	}
-
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void addNodeTwiceTest() {
+		g.addNodes(node1);
+		g.addNodes(node1);
+	}
+	
 	private void addNodesToExpectedMinPath() {
 		minPath.add(node6);
 		minPath.add(node4);
@@ -121,6 +130,6 @@ public class GraphTest {
 		g.addNodes(node2);
 	}
 
-
+	
 
 }

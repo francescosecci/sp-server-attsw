@@ -26,7 +26,14 @@
     <jacoco.report.path>${project.reporting.outputDirectory}/jacocout</jacoco.report.path>
     <sonar.language>java</sonar.language>
     <sonar.jacoco.reportPaths>${jacoco.data.file}</sonar.jacoco.reportPaths>
-    <sonar.coverage.exclusions>**/Main.*</sonar.coverage.exclusions>
+    <sonar.coverage.exclusions>
+      **/ServerApplication.*, 
+      **/DatabaseGrid.*, 
+      **/UserContent.*, 
+      **/WebSecurityConfig.*, 
+      **/IGridRepository.*, 
+      **/IGridService.*
+    </sonar.coverage.exclusions>
   </properties>
 
   <dependencies>
@@ -34,6 +41,7 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
+    
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-thymeleaf</artifactId>

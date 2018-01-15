@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AWebController {
 	@Autowired
 	private IGridService service;
-
+	private static final String USERCONTENT="usercontent";
 	@RequestMapping("/")
 	public String welcome(Model model) {
 		return "database";
@@ -24,22 +24,24 @@ public class AWebController {
 	public String viewdb(Model model) {
 		List<DatabaseGrid> allGrids = service.getAllGrids();
 		model.addAttribute("allGrids", allGrids);
-		//model.addAttribute("sizeof", allGrids.size());
-		//model.addAttribute("gridsList", allGrids);
-		//model.addAttribute("matrix", allGrids.);
 		return "dbview";
 
 	}
-
+	
 	@GetMapping("/addtable")
 	public String addtableForm(Model model) {
-		model.addAttribute("usercontent", new UserContent());
+		model.addAttribute(USERCONTENT, new UserContent());
 		return "tableadd";
 	}
 
 	@PostMapping("/addtable") 
-	public String addtable(@ModelAttribute UserContent content) {
+	public String addtable(@ModelAttribute UserContent content, Model mod) {
 		int n = content.getN();
+		if(n<0) {
+			mod.addAttribute(USERCONTENT,new UserContent());
+			mod.addAttribute("errormessage","Matrix size must be >= 0");
+			return "tableadd";
+		}
 		String cont = content.getContent();
 		int[][] matrix = new int[n][n];
 		int contiter = 0;
@@ -59,7 +61,7 @@ public class AWebController {
 	}
 	@GetMapping("/remtable")
     public String remtableForm(Model model) {
-        model.addAttribute("usercontent", new UserContent());
+        model.addAttribute(USERCONTENT, new UserContent());
         return "tablerem";
     }
 	@PostMapping("/remtable")

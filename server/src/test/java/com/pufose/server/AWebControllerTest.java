@@ -4,6 +4,7 @@ package com.pufose.server;
 import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
@@ -109,7 +110,8 @@ public class AWebControllerTest  {
 		mockMvc.perform(get("/addtable").with(httpBasic("user","password"))).andExpect(
 				status().isOk()).
 				andExpect(view().name("tableadd")).
-				andExpect(model().attribute("usercontent",isA(UserContent.class)));
+				andExpect(model().attribute("usercontent",isA(UserContent.class))).
+				andExpect(model().attributeDoesNotExist("errormessage"));
 	}
 	@Test
 	public void testAddOneTable() throws Exception {
@@ -171,7 +173,19 @@ public class AWebControllerTest  {
 		assertEquals(new DatabaseGrid(expmat,0),arg.getValue());
 		
 	}
+	@Test
+	public void testAddOneTableWhenWrongMatrixSize() throws Exception {
 	
+		mockMvc.perform(post("/addtable").with(httpBasic("user","password")).
+				param("content","").
+				param("n","-2")).
+				andExpect(status().is2xxSuccessful()).
+				andExpect(view().name("tableadd"))
+				.andExpect(model().attributeExists("errormessage"));
+		verify(gridService,times(0)).nextId();
+		verify(gridService,times(0)).storeInDb(anyObject());
+		
+	}
 	@Test
 	public void testRemoveTableRendering() throws Exception {
 		
@@ -183,6 +197,7 @@ public class AWebControllerTest  {
 	@Test
 	public void testRemoveOneTable() throws Exception {
 		
+		
 		mockMvc.perform(post("/remtable").with(httpBasic("user","password")).
 				param("content","").
 				param("n","0")).
@@ -192,5 +207,7 @@ public class AWebControllerTest  {
 		
 		
 	}
+	
+	
 	
 }

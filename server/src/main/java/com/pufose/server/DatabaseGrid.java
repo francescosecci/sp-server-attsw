@@ -5,9 +5,14 @@ import java.util.Arrays;
 public class DatabaseGrid {
 
 	public DatabaseGrid(int[][] matrix, int id) {
+		for (int i = 0, l = matrix.length; i < l; i++) {
+			if (matrix[i].length != l) {
+				throw new IllegalArgumentException("Matrix must be square");
+			}
+		}
 		this.matrix = matrix;
 		this.n = matrix.length;
-		this.setId(id);
+		this.id = id;
 	}
 
 	public DatabaseGrid(int id) {
@@ -69,12 +74,12 @@ public class DatabaseGrid {
 	public boolean isEnabled(int i, int j) {
 		try {
 			return matrix[i][j] > 0;
-		} catch (Exception exc) {
+		} catch (ArrayIndexOutOfBoundsException exc) {
 			return false;
 		}
 	}
 
-	public String getName(int i, int j) {
+	public String getName(int i, int j) { 
 		return i + "_" + j;
 	}
 
@@ -85,4 +90,6 @@ public class DatabaseGrid {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+
 }
