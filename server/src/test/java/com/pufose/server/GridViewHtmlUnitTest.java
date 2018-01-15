@@ -78,21 +78,21 @@ public class GridViewHtmlUnitTest {
 		final HtmlAnchor a = page.getAnchorByHref("/viewdb");
 		final HtmlAnchor a1 = page.getAnchorByHref("/addtable");
 		final HtmlAnchor a2 = page.getAnchorByHref("/remtable");
-		assertEquals(a.toString(), "HtmlAnchor[<a href=\"/viewdb\">]");
-		assertEquals(a1.toString(), "HtmlAnchor[<a href=\"/addtable\">]");
-		assertEquals(a2.toString(), "HtmlAnchor[<a href=\"/remtable\">]");
+		assertEquals( "HtmlAnchor[<a href=\"/viewdb\">]",a.toString());
+		assertEquals("HtmlAnchor[<a href=\"/addtable\">]",a1.toString());
+		assertEquals( "HtmlAnchor[<a href=\"/remtable\">]",a2.toString());
 
 		HtmlPage pageTemp = a.click();
 		HtmlPage pageExpected = this.webClient.getPage("/viewdb");
-		assertEquals(pageTemp.getTitleText(), pageExpected.getTitleText());
+		assertEquals(pageExpected.getTitleText(), pageTemp.getTitleText());
 
 		pageTemp = a1.click();
 		pageExpected = this.webClient.getPage("/addtable");
-		assertEquals(pageTemp.getTitleText(), pageExpected.getTitleText());
+		assertEquals(pageExpected.getTitleText(), pageTemp.getTitleText());
 
 		pageTemp = a2.click();
 		pageExpected = this.webClient.getPage("/remtable");
-		assertEquals(pageTemp.getTitleText(), pageExpected.getTitleText());
+		assertEquals(pageExpected.getTitleText(), pageTemp.getTitleText());
 
 	}
 
@@ -117,7 +117,7 @@ public class GridViewHtmlUnitTest {
 	private void assertGoBackIsWorking(HtmlPage page) throws FailingHttpStatusCodeException, MalformedURLException, IOException {
 		
 		final HtmlAnchor a = page.getAnchorByHref("/");
-		assertEquals(a.toString(), "HtmlAnchor[<a href=\"/\">]");
+		assertEquals("HtmlAnchor[<a href=\"/\">]",a.toString());
 		HtmlPage pageTemp = a.click();
 		HtmlPage pageExpected = this.webClient.getPage("/");
 		assertEquals(pageTemp.getTitleText(), pageExpected.getTitleText());
