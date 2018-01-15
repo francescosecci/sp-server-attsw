@@ -3,7 +3,6 @@ package com.pufose.server;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -126,16 +125,15 @@ public class GridViewHtmlUnitTest {
 	}
 
 	@Test
-	public void tableAddResesetTest() throws FailingHttpStatusCodeException, MalformedURLException, IOException {
+	public void tableAddResetTest() throws FailingHttpStatusCodeException, MalformedURLException, IOException {
 		HtmlPage page = this.webClient.getPage("/addtable");
 		final HtmlForm form = page.getFormByName("form");
-		form.getInputByName("n").setValueAttribute("0");
+		form.getInputByName("n").setValueAttribute("4");
 		form.getInputByName("content").setValueAttribute("1101");
 		final HtmlButton reset = form.getButtonByName("reset");
 		reset.click();
-
-		assertTrue(form.getInputByName("n").getAttribute("value").equals(""));
-		assertEquals(form.getInputByName("content").getValueAttribute(), "");
+		assertEquals("0",form.getInputByName("n").getAttribute("value"));
+		assertEquals("",form.getInputByName("content").getValueAttribute());
 
 	}
 
@@ -143,10 +141,10 @@ public class GridViewHtmlUnitTest {
 	public void tableRemoveResetTest() throws FailingHttpStatusCodeException, MalformedURLException, IOException {
 		HtmlPage page = this.webClient.getPage("/remtable");
 		final HtmlForm form = page.getFormByName("form");
-		form.getInputByName("n").setValueAttribute("0");
+		form.getInputByName("n").setValueAttribute("4");
 		final HtmlButton reset = form.getButtonByName("reset");
 		reset.click();
-		assertTrue(form.getInputByName("n").getAttribute("value").equals(""));
+		assertEquals("0",form.getInputByName("n").getAttribute("value"));
 
 	}
 
@@ -194,7 +192,6 @@ public class GridViewHtmlUnitTest {
 
 		List<String> cells = new ArrayList<String>();
 		for (final HtmlTableRow row : table.getRows()) {
-			System.out.println("Found row");
 			for (final HtmlTableCell cell : row.getCells()) {
 				cells.add(cell.asText());
 			}
