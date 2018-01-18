@@ -1,6 +1,5 @@
 package com.pufose.server;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyInt;
@@ -9,7 +8,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,98 +32,10 @@ public class GridServiceTest {
 	private Graph tobuild;
 
 	@Test
-	public void getAllIdWhenThereIsMoreThanOneGridTest() {
-		DatabaseGrid grid1 = new DatabaseGrid(1);
-		DatabaseGrid grid2 = new DatabaseGrid(2);
-		given(gridRepository.findAll()).willReturn(Arrays.asList(grid1, grid2));
-		assertThat(gridService.getAllId()).isEqualTo(Arrays.asList("1", "2"));
-		verify(gridRepository, times(1)).findAll();
-	}
-
-	@Test
-	public void getAllIdWhenThereIsOneGridTest() {
-		DatabaseGrid grid1 = new DatabaseGrid(1);
-		given(gridRepository.findAll()).willReturn(Arrays.asList(grid1));
-		assertThat(gridService.getAllId()).isEqualTo(Arrays.asList("1"));
-		verify(gridRepository, times(1)).findAll();
-
-	}
-
-	@Test
-	public void getAllIdWhenThereIsNoGridTest() {
-		List<DatabaseGrid> grids = new ArrayList<>();
-		given(gridRepository.findAll()).willReturn(Arrays.asList());
-		assertThat(gridService.getAllId()).isEqualTo(grids);
-		verify(gridRepository, times(1)).findAll();
-
-	}
-
-	@Test
-	public void getByIdWhenThereIsNoSuchGridTest() {
-		given(gridRepository.findById(7)).willReturn(null);
-		assertThat(gridService.getById(7)).isEqualTo(null);
-		verify(gridRepository, times(1)).findById(7);
-
-	}
-
-	@Test
-	public void getByIdWhenThereIsSuchGridTest() {
-		DatabaseGrid grid1 = new DatabaseGrid(1);
-		given(gridRepository.findById(1)).willReturn(grid1);
-		assertThat(gridService.getById(1)).isEqualTo(grid1);
-		verify(gridRepository, times(1)).findById(1);
-
-	}
-
-	@Test
-	public void saveInDbIsCalledTest() {
-		DatabaseGrid grid1 = new DatabaseGrid(1);
-		given(gridRepository.save(grid1)).willReturn(null);
-		gridService.storeInDb(grid1);
-		verify(gridRepository, times(1)).save(grid1);
-
-	}
-
-	@Test
-	public void nextIdWhenThereIsNoGridTest() {
-		given(gridRepository.findAll()).willReturn(new ArrayList<>());
-		assertThat(gridService.nextId()).isEqualTo(1);
-		verify(gridRepository, times(1)).findAll();
-
-	}
-
-	@Test
-	public void nextIdWhenThereAreGridsTest() {
-		DatabaseGrid grid1 = new DatabaseGrid(1);
-		DatabaseGrid grid2 = new DatabaseGrid(2);
-		given(gridRepository.findAll()).willReturn(Arrays.asList(grid1, grid2));
-		assertThat(gridService.nextId()).isEqualTo(3);
-		verify(gridRepository, times(1)).findAll();
-	}
-
-	@Test
-	public void getAllGridsWhenThereIsNoGridsTest() {
-		List<DatabaseGrid> grids = new ArrayList<>();
-		given(gridRepository.findAll()).willReturn(new ArrayList<>());
-		assertThat(gridService.getAllGrids()).isEqualTo(grids);
-		verify(gridRepository, times(1)).findAll();
-
-	}
-
-	@Test
-	public void dropTableDeleteIsCalledTest() {
-		
-		gridService.dropTable(1);
-		verify(gridRepository, times(1)).delete(1);
-
-	}
-
-	@Test
 	public void getMinPathTest() {
 		DatabaseGrid spied;
-		int[][] mat = new int[][] { { 1, 1 }, 
-									{ 0, 1 }, };
-		given(gridRepository.findById(1)).willReturn(spied=Mockito.spy(new DatabaseGrid(mat, 1)));
+		int[][] mat = new int[][] { { 1, 1 }, { 0, 1 }, };
+		given(gridRepository.findById(1)).willReturn(spied = Mockito.spy(new DatabaseGrid(mat, 1)));
 		given(tobuild.minPath("0_0", "1_1")).willReturn(Arrays.asList("0_0", "0_1", "1_1"));
 		given(tobuild.getNodes()).willReturn(Arrays.asList("0_0", "0_1", "1_1"));
 		List<String> expectedMinPath = Arrays.asList("0_0", "0_1", "1_1");
@@ -138,34 +48,35 @@ public class GridServiceTest {
 				if (mat[i][j] == 1) {
 
 					verify(tobuild, times(1)).addNodes(i + "_" + j);
-					
+
 				}
 			}
 		}
-		verify(spied,times(3)).isEnabled(0, 1);
-		verify(spied,times(2)).isEnabled(1, 1);
-		verify(spied,times(2)).isEnabled(0, 0);
-		verify(spied,times(0)).isEnabled(2, 2);
-		verify(spied,times(1)).isEnabled(eq(2), anyInt());
-		verify(spied,times(2)).isEnabled(anyInt(), eq(2));
+		verify(spied, times(3)).isEnabled(0, 1);
+		verify(spied, times(2)).isEnabled(1, 1);
+		verify(spied, times(2)).isEnabled(0, 0);
+		verify(spied, times(0)).isEnabled(2, 2);
+		verify(spied, times(1)).isEnabled(eq(2), anyInt());
+		verify(spied, times(2)).isEnabled(anyInt(), eq(2));
 		verify(tobuild, times(1)).addEdge("0_0", "0_1");
 		verify(tobuild, times(1)).addEdge("0_1", "1_1");
 		verify(tobuild, times(1)).addEdge("1_1", "0_1");
 		verify(tobuild, times(1)).addEdge("0_1", "0_0");
-		
-	}	
-	
+
+	}
+
 	@Test
 	public void getMinPathTestTwice() {
-		given(gridRepository.findById(0)).willReturn(new DatabaseGrid(new int[][] {{1,1},{1,1}},0));
+		given(gridRepository.findById(0)).willReturn(new DatabaseGrid(new int[][] { { 1, 1 }, { 1, 1 } }, 0));
 		gridService.getShortestPath("0_0", "0_0", 0);
-		verify(tobuild,times(1)).removeAllNodes();
-		
+		verify(tobuild, times(1)).removeAllNodes();
+
 	}
+
 	@Test
 	public void getMinPathWhenPathIsEmptyTest() {
 		DatabaseGrid spied;
-		given(gridRepository.findById(1)).willReturn(spied=Mockito.spy(new DatabaseGrid(1)));
+		given(gridRepository.findById(1)).willReturn(spied = Mockito.spy(new DatabaseGrid(1)));
 		given(tobuild.minPath("0_0", "1_1")).willReturn(Arrays.asList(""));
 		List<String> expectedMinPath = Arrays.asList("");
 		assertEquals(gridService.getShortestPath("0_0", "1_1", 1), expectedMinPath);
@@ -173,39 +84,41 @@ public class GridServiceTest {
 		verify(tobuild, times(1)).minPath("0_0", "1_1");
 		verify(tobuild, times(0)).addEdge("0_0", "0_1");
 		verify(tobuild, times(0)).addEdge("0_1", "1_1");
-		verify(spied,times(0)).isEnabled(anyInt(), anyInt());
+		verify(spied, times(0)).isEnabled(anyInt(), anyInt());
 
 	}
+
 	@Test
 	public void getMinPathWhenPathIsLengthOneTest() {
 		DatabaseGrid spied;
-		given(gridRepository.findById(1)).willReturn(spied=Mockito.spy(new DatabaseGrid(1)));
+		given(gridRepository.findById(1)).willReturn(spied = Mockito.spy(new DatabaseGrid(1)));
 		given(tobuild.minPath("0_0", "0_0")).willReturn(Arrays.asList("0_0"));
 		List<String> expectedMinPath = Arrays.asList("0_0");
 		assertEquals(gridService.getShortestPath("0_0", "0_0", 1), expectedMinPath);
 		verify(gridRepository, times(1)).findById(1);
 		verify(tobuild, times(1)).minPath("0_0", "0_0");
 		verify(tobuild, times(0)).addEdge("0_0", "0_0");
-		verify(spied,times(0)).isEnabled(anyInt(),anyInt());
+		verify(spied, times(0)).isEnabled(anyInt(), anyInt());
 	}
+
 	@Test
 	public void getMinPathWhenMatrixIsAllZeroTest() {
-		
+
 		DatabaseGrid spied;
-		given(gridRepository.findById(1)).willReturn(spied=Mockito.spy(new DatabaseGrid(new int[][] {{0,0},{0,0}},1)));
-		List<String> path=gridService.getShortestPath("0_0", "1_0", 1);
-		assertEquals(new LinkedList<>(),path);
+		given(gridRepository.findById(1))
+				.willReturn(spied = Mockito.spy(new DatabaseGrid(new int[][] { { 0, 0 }, { 0, 0 } }, 1)));
+		List<String> path = gridService.getShortestPath("0_0", "1_0", 1);
+		assertEquals(new LinkedList<>(), path);
 		verify(gridRepository, times(1)).findById(1);
-		verify(tobuild,times(1)).minPath("0_0","1_0");
-		verify(tobuild,times(0)).addNodes(anyString());
-		verify(tobuild,times(0)).addEdge(anyString(),anyString());
-		for(int i=0; i<2;i++) {
-			for(int j=0; j<2;j++) {
-				verify(spied,times(1)).isEnabled(i, j);
-				
+		verify(tobuild, times(1)).minPath("0_0", "1_0");
+		verify(tobuild, times(0)).addNodes(anyString());
+		verify(tobuild, times(0)).addEdge(anyString(), anyString());
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
+				verify(spied, times(1)).isEnabled(i, j);
+
 			}
 		}
 	}
-	
 
 }

@@ -1,7 +1,7 @@
 package com.pufose.server;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
