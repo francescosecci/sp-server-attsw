@@ -153,7 +153,9 @@ public class GridServiceTest {
 		verify(tobuild, times(1)).addEdge("1_1", "0_1");
 		verify(tobuild, times(1)).addEdge("0_1", "0_0");
 		
-	}	@Test
+	}	
+	
+	@Test
 	public void getMinPathTestTwice() {
 		given(gridRepository.findById(0)).willReturn(new DatabaseGrid(new int[][] {{1,1},{1,1}},0));
 		gridService.getShortestPath("0_0", "0_0", 0);

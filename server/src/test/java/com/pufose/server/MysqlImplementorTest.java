@@ -85,5 +85,22 @@ public class MysqlImplementorTest {
 		verify(gridRepository, times(1)).findOne(new Long(1));
 
 	}
+	
+	@Test
+	public void dropTableDeleteIsCalledTest() {
+		
+		implementor.dropTable(1);
+		verify(gridRepository, times(1)).delete(new Long(1));
+
+	}
+	
+	@Test
+	public void saveInDbIsCalledTest() {
+		DatabaseGrid grid1 = new DatabaseGrid(1);
+		given(gridRepository.save(grid1)).willReturn(null);
+		implementor.storeInDb(grid1);
+		verify(gridRepository, times(1)).save(grid1);
+
+	}
 
 }

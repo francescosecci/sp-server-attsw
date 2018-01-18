@@ -9,13 +9,12 @@ public class MySqlImplementor implements IServiceImplementor {
 
 	@Autowired
 	private MysqlRepository repo;
-	
 
 	@Override
 	public List<String> getAllId() {
 		Iterable<DatabaseGrid> allGrids = repo.findAll();
-		List<String> allid=new ArrayList<String>();
-		allGrids.forEach(grid -> allid.add(""+grid.getId()));
+		List<String> allid = new ArrayList<String>();
+		allGrids.forEach(grid -> allid.add("" + grid.getId()));
 		return allid;
 	}
 
@@ -27,7 +26,8 @@ public class MySqlImplementor implements IServiceImplementor {
 
 	@Override
 	public void storeInDb(DatabaseGrid grid) {
-		// TODO Auto-generated method stub
+		
+		repo.save(grid);
 		
 	}
 
@@ -40,16 +40,17 @@ public class MySqlImplementor implements IServiceImplementor {
 	@Override
 	public int nextId() {
 		Iterable<DatabaseGrid> allGrids = repo.findAll();
-		List<DatabaseGrid> casted=(List<DatabaseGrid>)(allGrids);
-		if(casted.isEmpty()) return 1;
-		int maxid=casted.get(casted.size()-1).getId();
+		List<DatabaseGrid> casted = (List<DatabaseGrid>) (allGrids);
+		if (casted.isEmpty())
+			return 1;
+		int maxid = casted.get(casted.size() - 1).getId();
 		return maxid + 1;
 	}
 
 	@Override
 	public void dropTable(int id) {
-		// TODO Auto-generated method stub
-		
+		repo.delete(new Long(id));
+
 	}
 
 }
