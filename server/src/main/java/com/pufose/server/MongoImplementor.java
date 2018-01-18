@@ -1,51 +1,56 @@
 package com.pufose.server;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
 
-@Primary
+@Service
 public class MongoImplementor implements IServiceImplementor {
 
 	@Autowired
 	private IGridRepository repo;
-	
 
 	@Override
 	public List<String> getAllId() {
-		// TODO Auto-generated method stub
-		return null;
+		List<DatabaseGrid> list = repo.findAll();
+		List<String> toreturn = new LinkedList<>();
+		for (DatabaseGrid grid : list)
+			toreturn.add("" + grid.getId());
+		return toreturn;
 	}
 
 	@Override
 	public DatabaseGrid getById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.findById(id);
 	}
 
 	@Override
 	public void storeInDb(DatabaseGrid grid) {
-		// TODO Auto-generated method stub
-		
+		repo.save(grid);
+
 	}
 
 	@Override
 	public List<DatabaseGrid> getAllGrids() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.findAll();
 	}
 
 	@Override
 	public int nextId() {
-		// TODO Auto-generated method stub
-		return 0;
+		List<DatabaseGrid> allGrids = repo.findAll();
+		if (allGrids.isEmpty())
+			return 1;
+		int maxid = allGrids.get(allGrids.size() - 1).getId();
+		return maxid + 1;
 	}
 
 	@Override
 	public void dropTable(int id) {
-		// TODO Auto-generated method stub
-		
+		repo.delete(id);
+
 	}
 
 }
