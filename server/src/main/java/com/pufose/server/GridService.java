@@ -8,19 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GridService implements IGridService {
+public class GridService extends IGridService {
 
 	@Autowired
 	private IGridRepository repository;
+	@Autowired
+	private MysqlRepository repository1;
 	private static final String D_D = "%d_%d";
 	@Autowired
 	private Graph tobuild;
 	@Override
 	public List<String> getAllId() {
 
-		List<DatabaseGrid> list = repository.findAll();
+		Iterable<DatabaseGrid> all=  repository1.findAll();
+		
 		List<String> toreturn = new LinkedList<>();
-		for (DatabaseGrid grid : list)
+		for (DatabaseGrid grid : all)
 			toreturn.add("" + grid.getId());
 		return toreturn;
 
@@ -30,7 +33,7 @@ public class GridService implements IGridService {
 	public List<String> getShortestPath(String from, String to, int id) {
 		
 		
-		DatabaseGrid grid=repository.findById(id);
+		DatabaseGrid grid=repository1.findById(id);
 		tobuild.removeAllNodes();
 		addNodes(grid);
 		for(String node:tobuild.getNodes()) {
