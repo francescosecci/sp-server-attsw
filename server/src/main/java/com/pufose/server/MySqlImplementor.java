@@ -39,8 +39,11 @@ public class MySqlImplementor implements IServiceImplementor {
 
 	@Override
 	public int nextId() {
-		// TODO Auto-generated method stub
-		return 0;
+		Iterable<DatabaseGrid> allGrids = repo.findAll();
+		List<DatabaseGrid> casted=(List<DatabaseGrid>)(allGrids);
+		if(casted.isEmpty()) return 1;
+		int maxid=casted.get(casted.size()-1).getId();
+		return maxid + 1;
 	}
 
 	@Override

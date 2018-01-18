@@ -61,6 +61,23 @@ public class MysqlImplementorTest {
 	}
 	
 	@Test
+	public void nextIdWhenThereAreGridsTest() {
+		DatabaseGrid grid1 = new DatabaseGrid(1);
+		DatabaseGrid grid2 = new DatabaseGrid(2);
+		given(gridRepository.findAll()).willReturn(Arrays.asList(grid1, grid2));
+		assertThat(implementor.nextId()).isEqualTo(3);
+		verify(gridRepository, times(1)).findAll();
+	}
+
+	@Test
+	public void nextIdWhenThereIsNoGridTest() {
+		given(gridRepository.findAll()).willReturn(new ArrayList<>());
+		assertThat(implementor.nextId()).isEqualTo(1);
+		verify(gridRepository, times(1)).findAll();
+
+	}
+	
+	@Test
 	public void getByIdWhenThereIsSuchGridTest() {
 		DatabaseGrid grid1 = new DatabaseGrid(1);
 		given(gridRepository.findOne(new Long(1))).willReturn(grid1);
