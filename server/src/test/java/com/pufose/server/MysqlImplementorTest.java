@@ -61,6 +61,15 @@ public class MysqlImplementorTest {
 	}
 	
 	@Test
+	public void getByIdWhenThereIsSuchGridTest() {
+		DatabaseGrid grid1 = new DatabaseGrid(1);
+		given(gridRepository.findOne(new Long(1))).willReturn(grid1);
+		assertThat(implementor.getById(1)).isEqualTo(grid1);
+		verify(gridRepository, times(1)).findOne(new Long(1));
+
+	}
+	
+	@Test
 	public void nextIdWhenThereAreGridsTest() {
 		DatabaseGrid grid1 = new DatabaseGrid(1);
 		DatabaseGrid grid2 = new DatabaseGrid(2);
@@ -77,14 +86,6 @@ public class MysqlImplementorTest {
 
 	}
 	
-	@Test
-	public void getByIdWhenThereIsSuchGridTest() {
-		DatabaseGrid grid1 = new DatabaseGrid(1);
-		given(gridRepository.findOne(new Long(1))).willReturn(grid1);
-		assertThat(implementor.getById(1)).isEqualTo(grid1);
-		verify(gridRepository, times(1)).findOne(new Long(1));
-
-	}
 	
 	@Test
 	public void dropTableDeleteIsCalledTest() {
@@ -100,6 +101,28 @@ public class MysqlImplementorTest {
 		given(gridRepository.save(grid1)).willReturn(null);
 		implementor.storeInDb(grid1);
 		verify(gridRepository, times(1)).save(grid1);
+
+	}
+	
+	@Test
+	public void getAllGridsWhenThereIsNoGridsTest() {
+		List<DatabaseGrid> grids = new ArrayList<>();
+		given(gridRepository.findAll()).willReturn(new ArrayList<>());
+		assertThat(implementor.getAllGrids()).isEqualTo(grids);
+		verify(gridRepository, times(1)).findAll();
+
+	}
+	
+	@Test
+	public void getAllGridsWhenThereIsGridsTest() {
+		DatabaseGrid grid1 = new DatabaseGrid(1);
+		DatabaseGrid grid2 = new DatabaseGrid(2);
+		List<DatabaseGrid> grids = new ArrayList<>();
+		grids.add(grid1);
+		grids.add(grid2);
+		given(gridRepository.findAll()).willReturn(grids);
+		assertThat(implementor.getAllGrids()).isEqualTo(grids);
+		verify(gridRepository, times(1)).findAll();
 
 	}
 

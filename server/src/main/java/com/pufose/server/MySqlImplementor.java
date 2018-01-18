@@ -26,15 +26,17 @@ public class MySqlImplementor implements IServiceImplementor {
 
 	@Override
 	public void storeInDb(DatabaseGrid grid) {
-		
+
 		repo.save(grid);
-		
+
 	}
 
 	@Override
 	public List<DatabaseGrid> getAllGrids() {
-		// TODO Auto-generated method stub
-		return null;
+		Iterable<DatabaseGrid> allGrids = repo.findAll();
+		List<DatabaseGrid> allgrids = new ArrayList<DatabaseGrid>();
+		allGrids.forEach(grid -> allgrids.add(grid));
+		return allgrids;
 	}
 
 	@Override
