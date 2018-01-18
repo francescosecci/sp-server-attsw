@@ -21,8 +21,8 @@ public class MySqlImplementor implements IServiceImplementor {
 
 	@Override
 	public DatabaseGrid getById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return repo.findOne(new Long(id));
 	}
 
 	@Override

@@ -51,5 +51,22 @@ public class MysqlImplementorTest {
 		assertThat(implementor.getAllId()).isEqualTo(Arrays.asList("1", "2"));
 		verify(gridRepository, times(1)).findAll();
 	}
+	
+	@Test
+	public void getByIdWhenThereIsNoSuchGridTest() {
+		given(gridRepository.findOne(new Long(7))).willReturn(null);
+		assertThat(implementor.getById(7)).isEqualTo(null);
+		verify(gridRepository, times(1)).findOne(new Long(7));
+
+	}
+	
+	@Test
+	public void getByIdWhenThereIsSuchGridTest() {
+		DatabaseGrid grid1 = new DatabaseGrid(1);
+		given(gridRepository.findOne(new Long(1))).willReturn(grid1);
+		assertThat(implementor.getById(1)).isEqualTo(grid1);
+		verify(gridRepository, times(1)).findOne(new Long(1));
+
+	}
 
 }
