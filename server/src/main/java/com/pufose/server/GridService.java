@@ -1,7 +1,5 @@
 package com.pufose.server;
 
-
-import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,71 +8,55 @@ import org.springframework.stereotype.Service;
 @Service
 public class GridService extends IGridService {
 
-	@Autowired
-	private IGridRepository repository;
-	@Autowired
-	private MysqlRepository repository1;
+
 	private static final String D_D = "%d_%d";
 	@Autowired
 	private Graph tobuild;
+
 	@Override
 	public List<String> getAllId() {
-
-		Iterable<DatabaseGrid> all=  repository1.findAll();
-		
-		List<String> toreturn = new LinkedList<>();
-		for (DatabaseGrid grid : all)
-			toreturn.add("" + grid.getId());
-		return toreturn;
+		return super.getAllId();
 
 	}
 
 	@Override
 	public List<String> getShortestPath(String from, String to, int id) {
-		
-		
-		DatabaseGrid grid=repository1.findById(id);
-		tobuild.removeAllNodes();
-		addNodes(grid);
-		for(String node:tobuild.getNodes()) {
-			addEdges(grid, node);
-		}
-		return tobuild.minPath(from,to);
-}
 
+		return super.getShortestPath(from, to, id);
+	}
 
 	private void addEdges(DatabaseGrid grid, String node) {
-		int i=node.charAt(0)-48;
-		int j=node.charAt(2)-48;
-		
-		if(grid.isEnabled(i+1,j) ) {
-			String target=String.format(D_D, i+1,j);
-			
+		int i = node.charAt(0) - 48;
+		int j = node.charAt(2) - 48;
+
+		if (grid.isEnabled(i + 1, j)) {
+			String target = String.format(D_D, i + 1, j);
+
 			tobuild.addEdge(node, target);
 		}
-		if(grid.isEnabled(i-1, j) ) {
-			String target=String.format(D_D, i-1,j);		
-			tobuild.addEdge(node,target);
+		if (grid.isEnabled(i - 1, j)) {
+			String target = String.format(D_D, i - 1, j);
+			tobuild.addEdge(node, target);
 		}
-		if(grid.isEnabled(i, j+1)) {
-			String target=String.format(D_D, i,j+1);
-			
-			tobuild.addEdge(node,target);
+		if (grid.isEnabled(i, j + 1)) {
+			String target = String.format(D_D, i, j + 1);
+
+			tobuild.addEdge(node, target);
 		}
-		if(grid.isEnabled(i, j-1)) {
-			String target=String.format(D_D, i,j-1);
-			
+		if (grid.isEnabled(i, j - 1)) {
+			String target = String.format(D_D, i, j - 1);
+
 			tobuild.addEdge(node, target);
 		}
 	}
 
 	private void addNodes(DatabaseGrid grid) {
-		int n=grid.getN();
-		for(int i=0; i<n;i++) {
-			for(int j=0; j<n;j++) {
-				if(grid.isEnabled(i, j) ) {
-						tobuild.addNodes(grid.getName(i, j));
-					
+		int n = grid.getN();
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (grid.isEnabled(i, j)) {
+					tobuild.addNodes(grid.getName(i, j));
+
 				}
 			}
 		}
@@ -82,33 +64,27 @@ public class GridService extends IGridService {
 
 	@Override
 	public DatabaseGrid getById(int id) {
-		return repository.findById(id);
+		return super.getById(id);
 	}
 
 	@Override
 	public void storeInDb(DatabaseGrid grid) {
-		repository.save(grid);
+		super.storeInDb(grid);
 
 	}
 
 	@Override
 	public List<DatabaseGrid> getAllGrids() {
-	
-		return repository.findAll();
+		return super.getAllGrids();
 	}
 
 	public int nextId() {
-		List<DatabaseGrid> allGrids = repository.findAll();
-		if(allGrids.isEmpty()) return 1;
-		int maxid=allGrids.get(allGrids.size()-1).getId();
-		return maxid + 1;
+		return super.nextId();
 	}
 
 	public void dropTable(int id) {
-		repository.delete(id);
-		
-	}
+		super.dropTable(id);
 
-	
+	}
 
 }

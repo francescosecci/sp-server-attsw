@@ -2,8 +2,12 @@ package com.pufose.server;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class MySqlImplementor implements IServiceImplementor {
 
+	@Autowired
+	private MysqlRepository repo;
 	@Override
 	public List<String> getShortestPath(String from, String to, int id) {
 		// TODO Auto-generated method stub

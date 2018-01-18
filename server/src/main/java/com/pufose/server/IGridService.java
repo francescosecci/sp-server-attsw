@@ -14,25 +14,25 @@ public abstract class IGridService {
 		this.impl=impl;
 	}
 	
-	public final List<String> getShortestPath(String from, String to, int id){
+	public  List<String> getShortestPath(String from, String to, int id){
 		return impl.getShortestPath(from,to,id);
 	}
-	public final List<String> getAllId(){
+	public  List<String> getAllId(){
 		return impl.getAllId();
 	}
-	public final DatabaseGrid getById(int id) {
+	public  DatabaseGrid getById(int id) {
 		return impl.getById(id);
 	}
-	public final void storeInDb(DatabaseGrid grid) {
+	public  void storeInDb(DatabaseGrid grid) {
 		impl.storeInDb(grid);
 	}
-	public final List<DatabaseGrid> getAllGrids(){
+	public  List<DatabaseGrid> getAllGrids(){
 		return impl.getAllGrids();
 	}
-	public final int nextId() {
+	public  int nextId() {
 		return impl.nextId();
 	}
-	public final void dropTable(int id) {
+	public  void dropTable(int id) {
 		impl.dropTable(id);
 	}
 
