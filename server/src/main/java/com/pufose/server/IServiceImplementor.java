@@ -4,7 +4,6 @@ import java.util.List;
 
 public interface IServiceImplementor {
 
-	public List<String> getShortestPath(String from, String to, int id);
 
 	public List<String> getAllId();
 

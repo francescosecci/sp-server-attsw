@@ -21,8 +21,14 @@ public class GridService extends IGridService {
 
 	@Override
 	public List<String> getShortestPath(String from, String to, int id) {
-
-		return super.getShortestPath(from, to, id);
+		DatabaseGrid grid=getById(id);
+		tobuild.removeAllNodes();
+		addNodes(grid);
+		for(String node:tobuild.getNodes()) {
+			addEdges(grid, node);
+		}
+		return tobuild.minPath(from,to);
+		
 	}
 
 	private void addEdges(DatabaseGrid grid, String node) {

@@ -10,11 +10,7 @@ public class MongoImplementor implements IServiceImplementor {
 
 	@Autowired
 	private IGridRepository repo;
-	@Override
-	public List<String> getShortestPath(String from, String to, int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public List<String> getAllId() {

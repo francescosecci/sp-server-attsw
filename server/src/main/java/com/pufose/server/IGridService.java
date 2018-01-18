@@ -14,9 +14,6 @@ public abstract class IGridService {
 		this.impl=impl;
 	}
 	
-	public  List<String> getShortestPath(String from, String to, int id){
-		return impl.getShortestPath(from,to,id);
-	}
 	public  List<String> getAllId(){
 		return impl.getAllId();
 	}
@@ -35,5 +32,6 @@ public abstract class IGridService {
 	public  void dropTable(int id) {
 		impl.dropTable(id);
 	}
+	public abstract List<String> getShortestPath(String from, String to, int id);
 
 }

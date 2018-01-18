@@ -8,11 +8,7 @@ public class MySqlImplementor implements IServiceImplementor {
 
 	@Autowired
 	private MysqlRepository repo;
-	@Override
-	public List<String> getShortestPath(String from, String to, int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public List<String> getAllId() {
