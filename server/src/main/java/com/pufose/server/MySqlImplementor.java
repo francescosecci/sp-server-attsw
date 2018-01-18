@@ -1,5 +1,6 @@
 package com.pufose.server;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,10 @@ public class MySqlImplementor implements IServiceImplementor {
 
 	@Override
 	public List<String> getAllId() {
-		// TODO Auto-generated method stub
-		return null;
+		Iterable<DatabaseGrid> allGrids = repo.findAll();
+		List<String> allid=new ArrayList<String>();
+		allGrids.forEach(grid -> allid.add(""+grid.getId()));
+		return allid;
 	}
 
 	@Override
