@@ -25,8 +25,7 @@ public class GridServiceTest {
 
 	@Mock
 	private IServiceImplementor impl;
-	@Mock
-	private IGridRepository gridRepository;
+
 
 	@InjectMocks
 	private GridService gridService;
