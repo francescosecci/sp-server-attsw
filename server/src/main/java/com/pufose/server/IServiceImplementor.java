@@ -16,6 +16,7 @@ public interface IServiceImplementor {
 	public int nextId();
 
 	public void dropTable(int id);
+
 	
 
 }

@@ -95,8 +95,9 @@ public class MysqlImplementorTest {
 	@Test
 	public void dropTableDeleteIsCalledTest() {
 		
-		implementor.dropTable(1);
-		verify(gridRepository, times(1)).delete(new Long(1));
+		implementor.dropTable(0);
+		String EXPECTED_QUERY="DELETE FROM sql_grid WHERE id = ?";
+		verify(jdbcTemplate,times(1)).update(EXPECTED_QUERY,0);
 
 	}
 	

@@ -4,10 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile("mongo")
 public class MongoImplementor implements IServiceImplementor {
 
 	@Autowired
@@ -52,5 +53,7 @@ public class MongoImplementor implements IServiceImplementor {
 		repo.delete(id);
 
 	}
+
+
 
 }

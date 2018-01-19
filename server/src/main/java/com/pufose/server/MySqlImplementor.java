@@ -5,12 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-@Primary
+@Profile("mysql")
 public class MySqlImplementor implements IServiceImplementor {
 
 	@Autowired
@@ -65,7 +65,10 @@ public class MySqlImplementor implements IServiceImplementor {
 
 	@Override
 	public void dropTable(int id) {
-		repo.delete(new Long(id));
+		jdbcTemplate.update( 
+				"DELETE FROM sql_grid " + 
+				"WHERE id = ?",id
+				);
 	}
 
 }
