@@ -18,9 +18,6 @@ addons:
 services:
   - mongodb
   - mysql
-  
-before_install:
-    - mysql -u springboot --password="password" < /home/travis/build/francescosecci/sp-server-attsw/server/src/test/travis.sql
 
 script:
  - mvn -f server/pom.xml clean verify -Pjacoco coveralls:report
