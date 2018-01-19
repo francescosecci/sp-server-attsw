@@ -1,7 +1,8 @@
 package com.pufose.server;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -14,20 +15,24 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 public class MysqlImplementorTest {
 	@Mock
 	private MysqlRepository gridRepository;
+	@Mock
+	private JdbcTemplate jdbcTemplate;
 	
 	@InjectMocks
 	private MySqlImplementor  implementor;
 	
+	
 	@Test
 	public void getAllIdWhenThereIsOneGridTest() {
 		
-		DatabaseGrid grid1 = new DatabaseGrid(1);
+		SqlGrid grid1 = new SqlGrid(1);
 		given(gridRepository.findAll()).willReturn(Arrays.asList(grid1));
 		assertThat(implementor.getAllId()).isEqualTo(Arrays.asList("1"));
 		verify(gridRepository, times(1)).findAll();
@@ -45,8 +50,8 @@ public class MysqlImplementorTest {
 	
 	@Test
 	public void getAllIdWhenThereIsMoreThanOneGridTest() {
-		DatabaseGrid grid1 = new DatabaseGrid(1);
-		DatabaseGrid grid2 = new DatabaseGrid(2);
+		SqlGrid grid1 = new SqlGrid(1);
+		SqlGrid grid2 = new SqlGrid(2);
 		given(gridRepository.findAll()).willReturn(Arrays.asList(grid1, grid2));
 		assertThat(implementor.getAllId()).isEqualTo(Arrays.asList("1", "2"));
 		verify(gridRepository, times(1)).findAll();
@@ -54,25 +59,25 @@ public class MysqlImplementorTest {
 	
 	@Test
 	public void getByIdWhenThereIsNoSuchGridTest() {
-		given(gridRepository.findOne(new Long(7))).willReturn(null);
-		assertThat(implementor.getById(7)).isEqualTo(null);
+		
+		assertNull(implementor.getById(7));
 		verify(gridRepository, times(1)).findOne(new Long(7));
 
 	}
 	
 	@Test
 	public void getByIdWhenThereIsSuchGridTest() {
-		DatabaseGrid grid1 = new DatabaseGrid(1);
+		SqlGrid grid1 = new SqlGrid(1);
 		given(gridRepository.findOne(new Long(1))).willReturn(grid1);
-		assertThat(implementor.getById(1)).isEqualTo(grid1);
+		assertThat(implementor.getById(1)).isEqualTo(grid1.toDatabase());
 		verify(gridRepository, times(1)).findOne(new Long(1));
 
 	}
 	
 	@Test
 	public void nextIdWhenThereAreGridsTest() {
-		DatabaseGrid grid1 = new DatabaseGrid(1);
-		DatabaseGrid grid2 = new DatabaseGrid(2);
+		SqlGrid grid1 = new SqlGrid(1);
+		SqlGrid grid2 = new SqlGrid(2);
 		given(gridRepository.findAll()).willReturn(Arrays.asList(grid1, grid2));
 		assertThat(implementor.nextId()).isEqualTo(3);
 		verify(gridRepository, times(1)).findAll();
@@ -97,16 +102,21 @@ public class MysqlImplementorTest {
 	
 	@Test
 	public void saveInDbIsCalledTest() {
-		DatabaseGrid grid1 = new DatabaseGrid(1);
-		given(gridRepository.save(grid1)).willReturn(null);
-		implementor.storeInDb(grid1);
-		verify(gridRepository, times(1)).save(grid1);
+		int[][] matrix= new int[][] {
+			{1,1,1},
+			{1,1,0},
+			{1,0,0}
+		};
+		implementor.storeInDb(new DatabaseGrid(matrix,0));
+		String expectedMatrix="111110100";
+		String EXPECTED_QUERY="INSERT INTO sql_grid VALUES (?, ?, ?)";
+		verify(jdbcTemplate,times(1)).update(EXPECTED_QUERY,0,expectedMatrix,3);
 
 	}
 	
 	@Test
-	public void getAllGridsWhenThereIsNoGridsTest() {
-		List<DatabaseGrid> grids = new ArrayList<>();
+	public void getAllGridsWhenThereAreNoGridsTest() {
+		List<SqlGrid> grids = new ArrayList<>();
 		given(gridRepository.findAll()).willReturn(new ArrayList<>());
 		assertThat(implementor.getAllGrids()).isEqualTo(grids);
 		verify(gridRepository, times(1)).findAll();
@@ -114,15 +124,16 @@ public class MysqlImplementorTest {
 	}
 	
 	@Test
-	public void getAllGridsWhenThereIsGridsTest() {
-		DatabaseGrid grid1 = new DatabaseGrid(1);
-		DatabaseGrid grid2 = new DatabaseGrid(2);
-		List<DatabaseGrid> grids = new ArrayList<>();
-		grids.add(grid1);
-		grids.add(grid2);
-		given(gridRepository.findAll()).willReturn(grids);
-		assertThat(implementor.getAllGrids()).isEqualTo(grids);
-		verify(gridRepository, times(1)).findAll();
+	public void getAllGridsWhenThereAreGridsTest() {
+		List<SqlGrid> sqllist=Arrays.asList(new SqlGrid(1),new SqlGrid(2));
+		given(gridRepository.findAll()).willReturn
+			(sqllist);
+		List<DatabaseGrid> actualgrids=implementor.getAllGrids();
+		List<DatabaseGrid> expectedgrids= new ArrayList<>();
+		sqllist.forEach(g-> expectedgrids.add(g.toDatabase()));
+		assertEquals(actualgrids,expectedgrids);
+		verify(gridRepository,times(1)).findAll();
+		
 
 	}
 

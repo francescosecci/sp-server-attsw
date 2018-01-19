@@ -12,6 +12,8 @@ public interface IGridRepository extends MongoRepository<DatabaseGrid,Integer> {
 	public List<DatabaseGrid> findAll();
 
 	public DatabaseGrid findById(int id);
+	
+
 
 
 	
