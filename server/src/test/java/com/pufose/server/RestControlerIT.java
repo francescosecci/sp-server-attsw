@@ -23,7 +23,7 @@ public class RestControlerIT {
 	private int port;
 	
 	@Autowired
-	private IGridRepository gridRepo;
+	private IMongoRepository gridRepo;
 
 	private String url;
 	

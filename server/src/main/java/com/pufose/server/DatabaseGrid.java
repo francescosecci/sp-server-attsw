@@ -2,6 +2,9 @@ package com.pufose.server;
 
 import java.util.Arrays;
 
+
+
+
 public class DatabaseGrid {
 
 	public DatabaseGrid(int[][] matrix, int id) {
@@ -57,6 +60,7 @@ public class DatabaseGrid {
 
 	private int n;
 	private int[][] matrix;
+	
 	private int id;
 
 	public int getN() {
@@ -89,6 +93,10 @@ public class DatabaseGrid {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public SqlGrid toSql() {
+		return new SqlGrid(this.id,matrix);
 	}
 
 

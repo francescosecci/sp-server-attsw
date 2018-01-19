@@ -11,15 +11,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class GridServiceAndRepositoryIT {
+@ActiveProfiles("mongo")
+public class GridServiceAndMongoRepositoryIT {
 
 	@Autowired
-	private IGridRepository repo;
+	private IMongoRepository repo;
+	
 	@Autowired
 	private GridService service;
+
 	
 	@Test
 	public void testGetAllIdWhenDbEmpty() {
@@ -95,7 +99,7 @@ public class GridServiceAndRepositoryIT {
 	public void testNextIdWhenDbIsEmpty() {
 		assertEquals(1,service.nextId());
 	}
-	private void addElements(IGridRepository repo, int i) {
+	private void addElements(IMongoRepository repo, int i) {
 		for(int j=0; j<i;j++)
 		{
 			repo.save(new DatabaseGrid(j));
