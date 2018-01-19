@@ -16,8 +16,14 @@ addons:
       secure: "D+FOd8SZrUvzgG9GSuXT5vormSuMOS9Zd+S0KOfA7x8Re7O1rWAQjPovAq3YX5tGMFag/BdUkgNQdttPd5GMg536D3sGRJy8UnWs8UT50Qrpy0Owf9bMGC8egv1D+7S+AGLeWLydtsKDXtTM/1NgloenLaW58kO4e6SmiSab+lGAdNOSJOFGuSdg48HfWEwgDdHwdEHWnknpvAfqjdTcWsDB2ira0tDLMsU0f29XmSNkprASesjoZA8Y09jGBzXlhAfkwMbyC7v/KyiZFD2Mn1eeZ7qre/Cq4THdVFtIdVeCqbmPWrALC+akKCPWf+qVOBCKJmC936/sklxrZHvvGQ/CBH7cwjycY8Fa6eQFbrne3Zyhb+4VZ+4n/Gh1HZcbb3TdADxAsVTX3yUYXM6n2uH8igcI82K3e3Er1uhCh4RS1Dzw0IP5DsPnCwWR7bghtGbSB5Acc2UBWxzQPIaz7unFZFk+MHVS1i0IP5UuDGg4GJ1Swz4oDXiTUT9bNVN8hqanS0bULahblMOC+LS/XIfcqRQAMwJ3yzyOyT+UhFa/b0O+5s+ue37M1slzsn+goY0YsiUdQm354Ic5oUqmtGLq1gDVxhpZXhyEjbznw+UeQQj+NY2Xa4mGjRRtDvWb31h0Obv4D4xuLAGNSQq66IDILlhfIHdpIi0Kr/+Kot8="
 
 services:
+  - docker
   - mongodb
   - mysql
+  
+before install:
+  - sudo service mysql stop || sudo service mysql-5.6 stop || sudo stop mysql-5.6 || sudo stop mysql || echo "failed to stop mysql"
+  - sudo docker run -d -p 3306:3306 mysql:5.7 # or whatever version mysql:5.6 mysql:5.5 mysql:5.8 or your custom mysql image
+  - mysql -u springboot --password="password" < /home/travis/build/francescosecci/sp-server-attsw/server/src/test/travis.sql
 
 script:
  - mvn -f server/pom.xml clean verify -Pjacoco coveralls:report
