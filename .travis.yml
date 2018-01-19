@@ -1,7 +1,9 @@
 language: java
 os:
   - linux
-  - osx
+jdk:
+  - oraclejdk8
+  - oraclejdk9
 sudo: false
 install: true
 addons:
