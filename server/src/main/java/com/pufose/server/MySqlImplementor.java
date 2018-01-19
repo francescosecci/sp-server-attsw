@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class MySqlImplementor implements IServiceImplementor {
 
 	@Autowired
-	private MysqlRepository repo;
+	private IMySqlRepository repo;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	@Override

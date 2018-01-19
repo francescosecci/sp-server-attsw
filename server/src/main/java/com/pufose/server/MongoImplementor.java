@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class MongoImplementor implements IServiceImplementor {
 
 	@Autowired
-	private IGridRepository repo;
+	private IMongoRepository repo;
 
 	@Override
 	public List<String> getAllId() {

@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class GridServiceAndRepositoryIT {
 
 	@Autowired
-	private IGridRepository repo;
+	private IMongoRepository repo;
 	@Autowired
 	private GridService service;
 	
@@ -95,7 +95,7 @@ public class GridServiceAndRepositoryIT {
 	public void testNextIdWhenDbIsEmpty() {
 		assertEquals(1,service.nextId());
 	}
-	private void addElements(IGridRepository repo, int i) {
+	private void addElements(IMongoRepository repo, int i) {
 		for(int j=0; j<i;j++)
 		{
 			repo.save(new DatabaseGrid(j));

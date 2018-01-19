@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class MongoImplementorTest {
 	@Mock
-	private IGridRepository gridRepository;
+	private IMongoRepository gridRepository;
 	
 	@InjectMocks
 	private MongoImplementor  implementor;

@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public class MysqlImplementorTest {
 	@Mock
-	private MysqlRepository gridRepository;
+	private IMySqlRepository gridRepository;
 	@Mock
 	private JdbcTemplate jdbcTemplate;
 	
