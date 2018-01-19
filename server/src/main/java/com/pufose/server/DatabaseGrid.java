@@ -2,13 +2,9 @@ package com.pufose.server;
 
 import java.util.Arrays;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 
-@Entity
+
 public class DatabaseGrid {
 
 	public DatabaseGrid(int[][] matrix, int id) {
@@ -65,8 +61,6 @@ public class DatabaseGrid {
 	private int n;
 	private int[][] matrix;
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
 	public int getN() {
@@ -99,6 +93,10 @@ public class DatabaseGrid {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public SqlGrid toSql() {
+		return new SqlGrid(this.id,matrix);
 	}
 
 
