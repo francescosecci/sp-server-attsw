@@ -23,17 +23,16 @@ before_install:
   - docker pull mysql/mysql-server
   - docker run --name mysqlimage  -e MYSQL_ROOT_PASSWORD=root -d mysql/mysql-server
   - docker exec -it mysqlimage mysql -uroot -p
+script:
   - root
   - create database db_example;
   - use db_example;
   - CREATE USER 'springboot'@'172.17.0.1' IDENTIFIED BY 'password';
   - GRANT ALL PRIVILEGES ON db_example.* TO 'springboot'@'172.17.0.1' WITH GRANT OPTION;
   - CREATE TABLE sql_grid(id int PRIMARY KEY, matrix TEXT, n int);
-
-script:
- - mvn -f server/pom.xml clean verify -Pjacoco coveralls:report
- - mvn -f server/pom.xml clean verify -Pjacoco sonar:sonar
- - mvn -f server/pom.xml verify -Pfailsafe
+  - mvn -f server/pom.xml clean verify -Pjacoco coveralls:report
+  - mvn -f server/pom.xml clean verify -Pjacoco sonar:sonar
+  - mvn -f server/pom.xml verify -Pfailsafe
  
 after_failure:
   - cat /home/travis/build/francescosecci/sp-server-attsw/server/target/surefire-reports/*.txt 
