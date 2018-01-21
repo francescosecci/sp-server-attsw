@@ -126,5 +126,31 @@ public class GridServiceTest {
 			}
 		}
 	}
+	@Test
+	public void testStoreInDb() {
+		DatabaseGrid grid;
+		gridService.storeInDb(grid=new DatabaseGrid(0));
+		verify(impl,times(1)).storeInDb(grid);
+	}
+	@Test
+	public void testGetAllGrids() {
+		gridService.getAllGrids();
+		verify(impl,times(1)).getAllGrids();
+	}
+	@Test
+	public void testNextId() {
+		gridService.nextId();
+		verify(impl,times(1)).nextId();
+	}
+	@Test
+	public void testDropTable() {
+		gridService.dropTable(0);
+		verify(impl,times(1)).dropTable(0);
+	}
+	@Test
+	public void testGetAllId() {
+		gridService.getAllId();
+		verify(impl,times(1)).getAllId();
+	}
 
 }
