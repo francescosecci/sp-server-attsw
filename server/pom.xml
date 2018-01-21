@@ -31,8 +31,7 @@
 			**/DatabaseGrid.*,
 			**/UserContent.*,
 			**/WebSecurityConfig.*,
-			**/IGridRepository.*,
-			**/IGridService.*
+			**/SqlGrid.*
 		</sonar.coverage.exclusions>
 	</properties>
 
@@ -156,8 +155,7 @@
 								<exclude>**/DatabaseGrid.*</exclude>
 								<exclude>**/UserContent.*</exclude>
 								<exclude>**/WebSecurityConfig.*</exclude>
-								<exclude>**/IGridRepository.*</exclude>
-								<exclude>**/IGridService.*</exclude>
+								<exclude>**/SqlGrid.*</exclude>
 							</excludes>
 						</configuration>
 						<executions>
