@@ -21,6 +21,8 @@ db:
     image: mysql
     restart: always
     environment:
+      MYSQL_DATABASE: db_example
+      MYSQL_USER: springboot
       MYSQL_ROOT_PASSWORD: password  
 
 script:
