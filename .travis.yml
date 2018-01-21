@@ -17,13 +17,18 @@ addons:
 
 services:
   - mongodb
-db:
-    image: mysql
-    restart: always
-    environment:
-      MYSQL_DATABASE: db_example
-      MYSQL_USER: springboot
-      MYSQL_ROOT_PASSWORD: password  
+  - docker
+  
+before_install:
+  - docker pull mysql/mysql-server
+  - docker run --name mysqlimage  -e MYSQL_ROOT_PASSWORD=root -d mysql/mysql-server
+  - docker exec -it mysqlimage mysql -uroot -p
+  - root
+  - create database db_example;
+  - use db_example;
+  - CREATE USER 'springboot'@'172.17.0.1' IDENTIFIED BY 'password';
+  - GRANT ALL PRIVILEGES ON db_example.* TO 'springboot'@'172.17.0.1' WITH GRANT OPTION;
+  - CREATE TABLE sql_grid(id int PRIMARY KEY, matrix TEXT, n int);
 
 script:
  - mvn -f server/pom.xml clean verify -Pjacoco coveralls:report
