@@ -9,11 +9,6 @@ public abstract class IGridService {
 	@Autowired
 	private IServiceImplementor impl;
 	
-	
-	public void setImplementor(IServiceImplementor impl) {
-		this.impl=impl;
-	}
-	
 	public  List<String> getAllId(){
 		return impl.getAllId();
 	}
