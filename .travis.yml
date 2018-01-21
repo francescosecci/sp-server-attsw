@@ -20,11 +20,10 @@ services:
   - mysql
 
 before_install:
-  - mysql -e 'CREATE DATABASE db_example;'
-  - mysql -e 'use db_example;'
+  - mysql -e "CREATE DATABASE IF NOT EXISTS db_example;"
   - mysql -e "CREATE USER 'springboot'@'172.17.0.1' IDENTIFIED BY 'password'";
   - mysql -e "GRANT ALL PRIVILEGES ON db_example.* TO 'springboot'@'172.17.0.1' WITH GRANT OPTION;"
-  - mysql -e "CREATE TABLE sql_grid(id int PRIMARY KEY, matrix TEXT, n int);"
+  - mysql -e "CREATE TABLE db_example.sql_grid(id int PRIMARY KEY, matrix TEXT, n int);"
   
 script:
   - mvn -f server/pom.xml clean verify -Pjacoco coveralls:report
