@@ -79,7 +79,7 @@ public class GridServiceTest {
 	}
 
 	@Test
-	public void getMinPathWhenPathIsEmptyTest() {
+	public void getMinPathWhenPathIsEmptyTest() { 
 		DatabaseGrid spied;
 		given(impl.getById(1)).willReturn(spied = Mockito.spy(new DatabaseGrid(1)));
 		given(tobuild.minPath("0_0", "1_1")).willReturn(Arrays.asList(""));
