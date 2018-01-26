@@ -87,19 +87,19 @@ public class SqlGrid {
 		return matrix.charAt((int)(i*n+j))-48>0;
 	}
 	public DatabaseGrid toDatabase() {
-		int[][] matrix = new int[(int)n][(int)n];
+		int[][] matrix2 = new int[(int)n][(int)n];
 		int contiter = 0;
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 				try {
-					matrix[i][j] = Integer.parseInt(String.format("%c", this.matrix.charAt(contiter++)));
+					matrix2[i][j] = Integer.parseInt(String.format("%c", this.matrix.charAt(contiter++)));
 				} catch (Exception exc) {
 
-					matrix[i][j] = 0;
+					matrix2[i][j] = 0;
 				}
 			}
 		}
-		return new DatabaseGrid(matrix,(int)this.id);
+		return new DatabaseGrid(matrix2,(int)this.id);
 	}
 
 }
