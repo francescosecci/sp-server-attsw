@@ -20,6 +20,9 @@ services:
   - mongodb
   - mysql
 
+install:
+  - brew install mysql
+
 before_install:
   - mysql -e "CREATE DATABASE IF NOT EXISTS db_example;"
   - mysql -e "CREATE USER 'springboot'@'%' IDENTIFIED BY 'password';"
