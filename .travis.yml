@@ -25,6 +25,7 @@ before_install:
           brew update; 
           brew outdated xctool || brew upgrade xctool;
           brew install mysql && mysql.server start;
+          brew install mongodb && brew services start mongodb;
     fi
   - mysql -e "CREATE DATABASE IF NOT EXISTS db_example;"
   - mysql -e "CREATE USER 'springboot'@'%' IDENTIFIED BY 'password';"
