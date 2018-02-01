@@ -25,12 +25,17 @@ before_install:
           brew update; 
           brew outdated xctool || brew upgrade xctool;
           brew install mysql && mysql.server start;
+          mysql -e "CREATE DATABASE IF NOT EXISTS db_example;"
+          mysql -e "CREATE USER 'springboot'@'%' IDENTIFIED BY 'password';"
+          mysql -e "GRANT ALL PRIVILEGES ON db_example.* TO 'springboot'@'%' WITH GRANT OPTION;"
+          mysql -e "CREATE TABLE db_example.sql_grid(id int PRIMARY KEY, matrix TEXT, n int);"
           brew install mongodb && brew services start mongodb;
+    else
+          mysql -e "CREATE DATABASE IF NOT EXISTS db_example;"
+          mysql -e "CREATE USER 'springboot'@'%' IDENTIFIED BY 'password';"
+          mysql -e "GRANT ALL PRIVILEGES ON db_example.* TO 'springboot'@'%' WITH GRANT OPTION;"
+          mysql -e "CREATE TABLE db_example.sql_grid(id int PRIMARY KEY, matrix TEXT, n int);"
     fi
-  - mysql -e "CREATE DATABASE IF NOT EXISTS db_example;"
-  - mysql -e "CREATE USER 'springboot'@'%' IDENTIFIED BY 'password';"
-  - mysql -e "GRANT ALL PRIVILEGES ON db_example.* TO 'springboot'@'%' WITH GRANT OPTION;"
-  - mysql -e "CREATE TABLE db_example.sql_grid(id int PRIMARY KEY, matrix TEXT, n int);"
   
 script:
   - mvn -f server/pom.xml clean verify -Pjacoco coveralls:report
