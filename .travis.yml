@@ -1,6 +1,9 @@
 language: java
-os:
-  - linux
+  
+matrix:
+  include:
+    - os: linux
+    - os: osx
   
 jdk:
   - oraclejdk8
