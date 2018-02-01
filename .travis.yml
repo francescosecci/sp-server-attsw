@@ -6,9 +6,6 @@ matrix:
     - os: osx
       osx-image: xcode9.2
   
-jdk:
-  - oraclejdk8
-  
 sudo: false
 
 install: true
