@@ -4,7 +4,6 @@ matrix:
   include:
     - os: linux
     - os: osx
-      default: osx_image: xcode8
   
 jdk:
   - oraclejdk8
