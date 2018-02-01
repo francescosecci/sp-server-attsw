@@ -24,7 +24,6 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
           brew update; 
           brew outdated xctool || brew upgrade xctool;
-          brew install mysql;
     fi
   - mysql -e "CREATE DATABASE IF NOT EXISTS db_example;"
   - mysql -e "CREATE USER 'springboot'@'%' IDENTIFIED BY 'password';"
