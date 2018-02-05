@@ -8,7 +8,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 
 @SpringBootApplication
-@ActiveProfiles("mysql")
+@ActiveProfiles("mongo")
 public class ServerApplication {
 
 	
