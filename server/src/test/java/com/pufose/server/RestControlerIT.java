@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
 @Import(WebSecurityConfig.class)
-@ActiveProfiles("mongo")
 public class RestControlerIT {
 
 	
